@@ -1,0 +1,7 @@
+# Sunt destul de sigur ca nimic din toate asta nu va functiona daca nu este checked setarea de "Require review from Code Owners" in branch protection rules.
+# Explicații pentru cum se gasește setarea: (07:00) https://www.youtube.com/watch?v=HWRzJKO7C0o 
+
+
+
+# Global Owner (daca un fisier din acest repo nu are un owner dedicat, owner-ul global trebuie sa deie approve la PR) 
+* @vasy2005
