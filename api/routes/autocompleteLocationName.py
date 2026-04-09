@@ -23,11 +23,15 @@ Features:
       proximity to the user.
 """
 
+import logging
 import os
+import urllib.parse
 from flask import Blueprint, jsonify, request
 from dotenv import load_dotenv
 import requests
 import time
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -68,7 +72,9 @@ def autocompleteLocationName():
             break # Get successful
         except requests.exceptions.RequestException as e:
             if attempt == max_retries-1:
-                return jsonify({"error": f"API request failed: {str(e)}"}), 502
+                safe_error = str(e).replace(api_key, '[REDACTED]').replace(urllib.parse.quote(api_key, safe=''), '[REDACTED]')
+                logger.error("Geoapify request failed after %d attempts: %s", max_retries, safe_error)
+                return jsonify({"error": "Upstream location service is unavailable. Please try again later."}), 502
             time.sleep(attempt)
 
     result = []
