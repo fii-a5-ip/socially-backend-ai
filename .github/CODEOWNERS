@@ -5,3 +5,6 @@
 
 # Global Owner (daca un fisier din acest repo nu are un owner dedicat, owner-ul global trebuie sa deie approve la PR) 
 * @vasy2005
+
+# Dacă asta funcționează, atunci toată echipa de Devops ar trebui să aibă acces la acest .github/ și toate subdirectoarele sale , inclusiv @vasy2005 fiindcă el face parte din Devops.
+/.github/  @fii-a5-ip/devops
