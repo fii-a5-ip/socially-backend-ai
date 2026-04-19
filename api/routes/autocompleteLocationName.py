@@ -1,27 +1,166 @@
 """
-Location Autocomplete API Blueprint
 
-This module provides a Flask Blueprint that wraps the Geoapify Autocomplete API 
-to return formatted, distance-sorted location suggestions based on user input.
 
-Endpoint: 
+What this file is, in very simple words:
+This file defines one Flask Blueprint with one GET endpoint.
+That endpoint receives a partial location name from the client,
+optionally receives the user's coordinates, calls the Geoapify
+Autocomplete API, cleans the response, sorts it by distance,
+and returns a simpler JSON list that is much easier for the rest
+of the backend or frontend to use.
+
+Think about it like this:
+- the frontend sends a text such as "Retr"
+- this backend endpoint asks Geoapify: "what places match this text?"
+- Geoapify returns a large raw response
+- this code keeps only the useful fields
+- this code returns a clean response to the caller
+
+Main endpoint exposed by this blueprint:
+    GET /autocompleteLocationName/
+
+If the main Flask app registers this blueprint under /api,
+then the final route used by the frontend will usually be:
     GET /api/autocompleteLocationName/
 
-Query Parameters:
-    - partialName (str, required): The search string or prefix (e.g., "Retr").
-    - userLatCoord (float, optional): The user's latitude.
-    - userLonCoord (float, optional): The user's longitude.
+Required query parameter:
+    partialName (str)
+        The text typed by the user.
+        Example: "Retr", "Buch", "Pia", "McD"
 
-Features:
-    - Geo-Fencing & Biasing: If coordinates are provided, the search is strictly 
-      filtered to a 100km radius and mathematically biased toward the user.
-    - Fault Tolerance: Implements a 5-attempt retry loop with exponential backoff 
-      to handle temporary upstream API failures.
-    - Data Normalization: Extracts and formats relevant fields (name, place_id, 
-      coordinates, and structured address) from the raw Geoapify GeoJSON response.
-    - Distance Sorting: Ensures the final JSON response is strictly ordered by 
-      proximity to the user.
+Optional query parameters:
+    userLatCoord (float as query string)
+        The latitude of the user.
+        Example: 44.4268
+
+    userLonCoord (float as query string)
+        The longitude of the user.
+        Example: 26.1025
+
+What the endpoint returns on success:
+A JSON list. Each element in the list is one location suggestion
+normalized into this structure:
+
+[
+    {
+        "name": "Restaurant Demo",
+        "place_id": "some_place_id",
+        "coordinates": {
+            "lat": 44.4268,
+            "lon": 26.1025
+        },
+        "full_address": "Strada Exemplu 10, Bucharest, Romania",
+        "address": {
+            "country": "Romania",
+            "city": "Bucharest",
+            "street": "Strada Exemplu",
+            "street_number": "10"
+        },
+        "distance_meters": 215
+    }
+]
+
+Very important behavior:
+1. If partialName is missing -> returns HTTP 400.
+2. If GEOAPIFY_AUTOCOMPLETE_API_KEY is missing -> returns HTTP 500.
+3. If userLatCoord and userLonCoord are both provided:
+   - the search is biased toward the user's location
+   - the search is also restricted to a 100 km circle around the user
+4. If Geoapify fails temporarily, the code retries up to 5 times.
+5. Final results are sorted by distance_meters ascending,
+   which means the closest locations are returned first.
+
+Example request:
+    /autocompleteLocationName/?partialName=Retr&userLatCoord=44.4268&userLonCoord=26.1025
+
+Example success response:
+[
+    {
+        "name": "Restaurant Demo",
+        "place_id": "123",
+        "coordinates": {
+            "lat": 44.4268,
+            "lon": 26.1025
+        },
+        "full_address": "Strada Exemplu 10, Bucharest, Romania",
+        "address": {
+            "country": "Romania",
+            "city": "Bucharest",
+            "street": "Strada Exemplu",
+            "street_number": "10"
+        },
+        "distance_meters": 215
+    }
+]
+
+In one sentence:
+This file is a clean adapter between your app and Geoapify autocomplete.
 """
+"""
+    Main endpoint handler.
+
+    Very simple explanation:
+    - reads input from query params
+    - validates required data
+    - calls Geoapify autocomplete
+    - extracts only the fields needed by the app
+    - sorts results by distance
+    - returns JSON list
+
+    Input received from request.args:
+        partialName   -> required string
+        userLatCoord  -> optional string/float-like value
+        userLonCoord  -> optional string/float-like value
+
+    Success return value:
+        Flask JSON response containing a list of dictionaries.
+
+    Exact dictionary format for each result:
+        {
+            "name": <str or None>,
+            "place_id": <str or None>,
+            "coordinates": {
+                "lat": <float or None>,
+                "lon": <float or None>
+            },
+            "full_address": <str or None>,
+            "address": {
+                "country": <str or None>,
+                "city": <str or None>,
+                "street": <str or None>,
+                "street_number": <str or None>
+            },
+            "distance_meters": <number or inf>
+        }
+
+    Error returns:
+        400 -> if partialName is missing
+        500 -> if API key is missing
+        502 -> if Geoapify fails after all retries
+
+    Example input:
+        /autocompleteLocationName/?partialName=Retr&userLatCoord=44.4268&userLonCoord=26.1025
+
+    Example output:
+        [
+            {
+                "name": "Restaurant Demo",
+                "place_id": "123",
+                "coordinates": {
+                    "lat": 44.4268,
+                    "lon": 26.1025
+                },
+                "full_address": "Strada Exemplu 10, Bucharest, Romania",
+                "address": {
+                    "country": "Romania",
+                    "city": "Bucharest",
+                    "street": "Strada Exemplu",
+                    "street_number": "10"
+                },
+                "distance_meters": 215
+            }
+        ]
+    """
 
 import logging
 import os
