@@ -1055,7 +1055,7 @@ That is all the consumer really needs to understand.
 
 ---
 
-## 7. Java usage example (PRODUCTION READY)
+##  Java usage example (PRODUCTION READY)
 
 ```java
 /*
