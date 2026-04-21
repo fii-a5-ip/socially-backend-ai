@@ -1,6 +1,22 @@
+# This file defines a Flask Blueprint that exposes one HTTP API endpoint.
+# That endpoint allows another part of the system to ask for weather forecast information for a specific place and for one or more specific dates.
+
+# Input (JSON):
+#     - coordinates: List of [latitude, longitude]
+#     - dates: List of strings in "YYYY-MM-DD" format
+    
+# Output (JSON):
+#     - A dictionary keyed by date, containing:
+#         * temperatura: 24-hour array of temperature values (°C)
+#         * probabilitate_precipitatii: 24-hour array of precipitation probability (%)
+#         * viteza_vantului: 24-hour array of wind speeds (km/h)
+#         * descriere: General weather description in Romanian (e.g., 'senin', 'noros')
+
 from flask import Blueprint, request, jsonify
 import requests
 weather_blueprint=Blueprint("findWeatherByLocation", __name__, url_prefix="/findWeatherByLocation")
+# a function for interpreting the weather code given by Open-Meteo API 
+# Maps WMO weather codes to Romanian descriptions.
 def interpret_weather_code(code):
     mapping = {
         0: "senin",
@@ -25,6 +41,7 @@ def interpret_weather_code(code):
     }
     return mapping.get(code, "cod necunoscut")
 
+# Fetches weather data for specific coordinates and a list of dates.
 def findWeatherByLocation(location, dates):
     url="https://api.open-meteo.com/v1/forecast"
     lat, lon=location
@@ -71,5 +88,6 @@ def weather_post():
     data=request.get_json()
     location=data.get("coordinates")
     dates=data.get("dates")
+    # Process and return the final JSON structure
     weather_info=findWeatherByLocation(location, dates)
     return jsonify(weather_info)
