@@ -1,15 +1,10 @@
 """
-======================== DISTANCE MATRIX ENDPOINT ========================
 
-WHAT THIS CODE DOES (VERY SIMPLE EXPLANATION):
+DistanceBetween2Coord API Blueprint
 
 This endpoint receives some coordinates (points on a map) and tells you:
 - how far they are from each other (distance)
 - how long it takes to drive between them (time)
-
---------------------------------------------------------------------------
-
-WHAT INPUT IT EXPECTS:
 
 You must send a POST request with JSON like this:
 
@@ -31,12 +26,6 @@ EXPLANATION:
 Each point has:
 - lon = longitude
 - lat = latitude
-
-IMPORTANT:
-Coordinates are always in this order:
-[lon, lat] (NOT [lat, lon])
-
---------------------------------------------------------------------------
 
 WHAT THE CODE DOES INTERNALLY (STEP BY STEP):
 
@@ -60,7 +49,6 @@ The response is a nested dictionary (JSON) like this:
     }
 }
 
-VERY IMPORTANT EXPLANATION:
 
 - first "0" = index of the source
 - second "0" or "1" = index of the destination
@@ -69,78 +57,8 @@ So:
 
 result["0"]["0"] = from source 0 to destination 0
 result["0"]["1"] = from source 0 to destination 1
-
---------------------------------------------------------------------------
-
-WHAT THE VALUES MEAN:
-
-"distance": 385000
-→ distance in METERS
-→ 385000 = 385 km
-
-"time": 21500
-→ time in SECONDS
-→ 21500 sec ≈ ~6 hours
-
---------------------------------------------------------------------------
-
-FULL EXAMPLE:
-
-INPUT:
-
-{
-    "sources": [
-        {"lon": 27.5879, "lat": 47.1585}
-    ],
-    "destinations": [
-        {"lon": 26.1025, "lat": 44.4268},
-        {"lon": 23.5914, "lat": 46.7712}
-    ]
-}
-
-OUTPUT:
-
-{
-    "0": {
-        "0": {"distance": 385000, "time": 21500},
-        "1": {"distance": 450000, "time": 26000}
-    }
-}
-
-INTERPRETATION:
-
-- source 0 → destination 0 = 385 km / ~6h
-- source 0 → destination 1 = 450 km / ~7h
-
-
-
---------------------------------------------------------------------------
-
-IMPORTANT THINGS TO KNOW:
-
-1. Keys are STRINGS ("0", "1"), not numbers
-2. This is a MATRIX (think of it like a table)
-3. For each source → you get all destinations
-4. If you have 2 sources and 3 destinations → you get 6 results
-
---------------------------------------------------------------------------
-
-VERY SIMPLE WAY TO THINK ABOUT IT:
-
-Imagine a table:
-
-Rows = sources  
-Columns = destinations  
-
-Each cell contains:
-- distance
-- time
-
-This endpoint returns that table as a nested JSON object.
-
-
-==========================================================================
 """
+
 from flask import Blueprint, jsonify, request
 from dotenv import load_dotenv
 import os
