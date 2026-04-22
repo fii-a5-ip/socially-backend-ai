@@ -1,31 +1,31 @@
-﻿# Location Autocomplete API Blueprint — Detailed README
+# Distance Matrix API Blueprint — Detailed README
 
-## What this module is, in very simple words
+## 1. What this module is
 
 This module is a **Flask Blueprint** that exposes one HTTP endpoint.
-That endpoint receives a piece of text like:
 
-- `"Retr"`
-- `"Bucha"`
-- `"Pia"`
+That endpoint receives:
 
-and returns a list of matching places.
+- a list of **source coordinates** (`sources`)
+- a list of **destination coordinates** (`destinations`)
 
-The module does **not** search the database directly.
-Instead, it calls the **Geoapify Autocomplete API**, receives Geoapify's answer, cleans it up, keeps only the useful fields, sorts the results by distance, and then sends a much simpler JSON response to the rest of your application.
+and returns, for **every source → destination combination**:
+
+- the **driving distance** in meters
+- the **estimated driving time** in seconds
 
 So, in one sentence:
 
-> The user types some letters, this endpoint asks Geoapify for suggestions, and returns a clean list of places.
+> You send several starting points and several ending points, and this endpoint returns a routing matrix that tells you how far and how long it takes to drive between each pair.
 
 ---
 
-## Endpoint exposed by this blueprint
+## 2. What endpoint this blueprint exposes
 
-When this blueprint is registered in Flask, it exposes:
+So the route exposed by this blueprint is:
 
 ```http
-GET /api/autocompleteLocationName/
+POST /api/findDistanceBetween2Coord/
 ```
 
 ---
