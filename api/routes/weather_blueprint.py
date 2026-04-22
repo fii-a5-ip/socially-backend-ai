@@ -11,7 +11,7 @@ Output (JSON):
         * temp: 24-hour array of temperature values (°C)
         * precipitation_probability: 24-hour array of precipitation probability (%)
         * wind_speed: 24-hour array of wind speeds (km/h)
-        * details: General weather description in Romanian (e.g., 'senin', 'noros')
+        * details: General weather description in Romanian (e.g., 'clear', 'cloudy')
 """
 
 from flask import Blueprint, request, jsonify
