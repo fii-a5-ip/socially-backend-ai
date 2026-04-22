@@ -1,50 +1,57 @@
-FLUX AI
+# FLUX AI
 
-Userul scrie in aplicatie un prompt. Aplicatia impacheteaza acest text intr-un JSON 
+Userul scrie in aplicatie un prompt. Aplicatia impacheteaza acest text intr-un JSON:
+```json
 {
 	"prompt" : "vreau sa beau un suculet de mere"
 }
+```
+si face un request http de tip POST catre server pe ruta `/api/searchToFilters/`
 
-si face un request http de tip POST catre server pe ruta /api/searchToFilters/
+---
 
+## Preluarea datelor (`searchToFilters.py`)
+* Ruta preia request-ul.
+* Verifică existența câmpului `prompt` și extrage textul.
+* Apelează funcția `get_ai_filters(text)` (importată din `groq_service.py`).
+* În acest moment, execuția în `searchToFilters.py` se oprește și așteaptă rezultatul.
 
-Preluarea datelor (searchToFilters.py)
-	Ruta preia request-ul.
-	Verifică existența câmpului prompt și extrage textul.
-	Apelează funcția get_ai_filters(text) (importată din groq_service.py).
-	În acest moment, execuția în searchToFilters.py se oprește și așteaptă rezultatul.
+## Procesarea AI (`groq_service.py`)
+* Funcția `get_ai_filters` ia textul primit ca parametru.
+* Citește instrucțiunile din `prompt.txt`.
+* Preia cheia API din fișierul `.env`.
+* Face un request asincron către API-ul groq. Dacă e nevoie, rotește cheile.
+* Groq returnează un JSON cu filtrele extrase.
+* Funcția dă return `json_ai` (trimite datele înapoi de unde a fost apelată).
 
-Procesarea AI (groq_service.py)
-	Funcția get_ai_filters ia textul primit ca parametru.
-	Citește instrucțiunile din prompt.txt.
-	Preia cheia API din fișierul .env.
-	Face un request asincron către API-ul groq. Dacă e nevoie, rotește cheile.
-	Groq returnează un JSON cu filtrele extrase.
-	Funcția dă return json_ai (trimite datele înapoi de unde a fost apelată).
+> `searchToFilters.py` primeste dictionarul cu filtre si il trimite cu http inapoi catre aplicatie.
 
+---
 
-searchToFilters.py primeste dictionarul cu filtre si il trimite cu http inapoi catre aplicatie
+## Pentru a integra aceasta functie in aplicatie trebuie sa se faca un request respectand:
 
+* **endpoint**: `POST http://<IP SERVER>:5000/api/searchToFilters/`
+* **header necesar**: `Content-Type: application/json`
+* **body** (ce trebuie sa trimita aplicatia): 
+  ```json
+  { "prompt": "text random introdus de user" } 
+  ```
+* **response** : 
+  ```json
+  {
+      "filtre_id": [
+          710,
+          419,
+          412
+      ]
+  }
+  ```
 
-pentru a integra aceasta functie in aplicatie trebuie sa se faca un request respectand:
-
-	-endpoint: POST http://<IP SERVER>:5000/api/searchToFilters/
-	-header necesar: Content-Type: application/json
-	-body ( ce trebuie sa trimita aplicatia) { "prompt": "text random introdus de user" } 
-	-response : {
-					"filtre_id": [
-						710,
-						419,
-						412
-					]
-				}
+---
 				
-				
-sava poate folosi OkHttp 
+sava poate folosi **OkHttp** ### Java Example
 
-si asta e un ex de cod pentru el: ?nu stiu daca ajuta
-
-
+```java
 import okhttp3.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -64,8 +71,10 @@ public class SociallyApiClient {
         // 3. Construim request-ul POST
         // IMPORTANT pentru Sava: Daca ruleaza aplicatia pe emulatorul Android local, 
         // IP-ul trebuie sa fie 10.0.2.2 in loc de 127.0.0.1 sau localhost.
+        String apiUrl = ""; //API URL, we'll have it when the api is done and deployed
+        String url = "http://" + apiUrl + "/api/searchToFilters/";
         Request request = new Request.Builder()
-                .url("http://10.0.2.2:5000/api/searchToFilters/")
+                .url(url)
                 .header("Content-Type", "application/json")
                 .post(body)
                 .build();
@@ -106,3 +115,4 @@ public class SociallyApiClient {
         });
     }
 }
+```
