@@ -1,31 +1,31 @@
-# Distance Matrix API Blueprint — Detailed README
+# Location Autocomplete API Blueprint — Detailed README
 
-## 1. What this module is
+## What this module is, in very simple words
 
 This module is a **Flask Blueprint** that exposes one HTTP endpoint.
+That endpoint receives a piece of text like:
 
-That endpoint receives:
+- `"Retr"`
+- `"Bucha"`
+- `"Pia"`
 
-- a list of **source coordinates** (`sources`)
-- a list of **destination coordinates** (`destinations`)
+and returns a list of matching places.
 
-and returns, for **every source → destination combination**:
-
-- the **driving distance** in meters
-- the **estimated driving time** in seconds
+The module does **not** search the database directly.
+Instead, it calls the **Geoapify Autocomplete API**, receives Geoapify's answer, cleans it up, keeps only the useful fields, sorts the results by distance, and then sends a much simpler JSON response to the rest of your application.
 
 So, in one sentence:
 
-> You send several starting points and several ending points, and this endpoint returns a routing matrix that tells you how far and how long it takes to drive between each pair.
+> The user types some letters, this endpoint asks Geoapify for suggestions, and returns a clean list of places.
 
 ---
 
-## 2. What endpoint this blueprint exposes
+## Endpoint exposed by this blueprint
 
-So the route exposed by this blueprint is:
+When this blueprint is registered in Flask, it exposes:
 
 ```http
-POST /api/findDistanceBetween2Coord/
+GET /api/autocompleteLocationName/
 ```
 
 ---
@@ -188,7 +188,7 @@ So the response is intentionally ordered from nearest to farthest.
 ---
 
 
-### Request explination
+### Request Explanation
 
 ```http
 GET /api/autocompleteLocationName/?partialName=Retr&userLatCoord=44.4268&userLonCoord=26.1025
@@ -341,7 +341,7 @@ public class AutocompleteDemo {
 
         // Base URL of OUR backend API (not Geoapify)
         String apiUrl = ""; //API URL, we'll have it when the api is done and deployed
-        String baseUrl = "http://" + apiUrl + "/api/findDistanceBetween2Coord/";
+        String baseUrl = "http://" + apiUrl + "/api/autocompleteLocationName/";
 
         // Input parameters (what user typed + optional coords)
         String partialName = "Retr";
