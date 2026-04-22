@@ -1,16 +1,18 @@
-# This file defines a Flask Blueprint that exposes one HTTP API endpoint.
-# That endpoint allows another part of the system to ask for weather forecast information for a specific place and for one or more specific dates.
+"""
+This module defines a Flask Blueprint that exposes one HTTP API endpoint.
+That endpoint allows another part of the system to ask for weather forecast information for a specific place and for one or more specific dates.
 
-# Input (JSON):
-#     - coordinates: List of [latitude, longitude]
-#     - dates: List of strings in "YYYY-MM-DD" format
+Input (JSON):
+    - coordinates: List of [latitude, longitude]
+    - dates: List of strings in "YYYY-MM-DD" format
     
-# Output (JSON):
-#     - A dictionary keyed by date, containing:
-#         * temperatura: 24-hour array of temperature values (°C)
-#         * probabilitate_precipitatii: 24-hour array of precipitation probability (%)
-#         * viteza_vantului: 24-hour array of wind speeds (km/h)
-#         * descriere: General weather description in Romanian (e.g., 'senin', 'noros')
+Output (JSON):
+    - A dictionary keyed by date, containing:
+        * temperatura: 24-hour array of temperature values (°C)
+        * probabilitate_precipitatii: 24-hour array of precipitation probability (%)
+        * viteza_vantului: 24-hour array of wind speeds (km/h)
+        * descriere: General weather description in Romanian (e.g., 'senin', 'noros')
+"""
 
 from flask import Blueprint, request, jsonify
 import requests
@@ -19,27 +21,27 @@ weather_blueprint=Blueprint("findWeatherByLocation", __name__, url_prefix="/find
 # Maps WMO weather codes to Romanian descriptions.
 def interpret_weather_code(code):
     mapping = {
-        0: "senin",
-        1: "mai mult senin",
-        2: "parțial noros",
-        3: "noros",
-        45: "ceață",
-        48: "ceață cu depuneri",
-        51: "burniță ușoară",
-        53: "burniță moderată",
-        55: "burniță intensă",
-        61: "ploaie ușoară",
-        63: "ploaie moderată",
-        65: "ploaie puternică",
-        71: "ninsoare ușoară",
-        73: "ninsoare moderată",
-        75: "ninsoare puternică",
-        80: "averse ușoare",
-        81: "averse moderate",
-        82: "averse puternice",
-        95: "furtună"
+        0: "clear",
+        1: "mostly clear",
+        2: "partly cloudy",
+        3: "cloudy",
+        45: "fog",
+        48: "freezing fog",
+        51: "light drizzle",
+        53: "moderate drizzle",
+        55: "heavy drizzle",
+        61: "light rain",
+        63: "moderate rain",
+        65: "heavy rain",
+        71: "light snow",
+        73: "moderate snow",
+        75: "heavy snow",
+        80: "light showers",
+        81: "moderate showers",
+        82: "heavy showers",
+        95: "thunderstorm"
     }
-    return mapping.get(code, "cod necunoscut")
+    return mapping.get(code, "unknown")
 
 # Fetches weather data for specific coordinates and a list of dates.
 def findWeatherByLocation(location, dates):
@@ -71,17 +73,17 @@ def findWeatherByLocation(location, dates):
             if data_curenta in dates:
                 if data_curenta not in rezultat:
                     rezultat[data_curenta]={
-                    "ziua": data_curenta,
-                    "temperatura": [],
-                    "probabilitate_precipitatii": [],
-                    "viteza_vantului": [],
-                    "descriere": interpret_weather_code(codes[i])}
-                rezultat[data_curenta]["temperatura"].append(temps[i])
-                rezultat[data_curenta]["probabilitate_precipitatii"].append(rain[i])
-                rezultat[data_curenta]["viteza_vantului"].append(wind[i])
+                    "date": data_curenta,
+                    "temp": [],
+                    "precipitation_probability": [],
+                    "wind_speed": [],
+                    "details": interpret_weather_code(codes[i])}
+                rezultat[data_curenta]["temp"].append(temps[i])
+                rezultat[data_curenta]["precipitation_probability"].append(rain[i])
+                rezultat[data_curenta]["wind_speed"].append(wind[i])
         return rezultat
     except Exception as e:
-        print(f"Eroare tehnică la apelare: {e}")
+        print(f"Error: {e}")
 
 @weather_blueprint.route("/", methods=["POST"])
 def weather_post():
