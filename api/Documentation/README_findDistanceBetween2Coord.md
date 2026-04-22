@@ -1,6 +1,6 @@
 ﻿# Distance Matrix API Blueprint — Detailed README
 
-## 1. What this module is
+## What this module is
 
 This module is a **Flask Blueprint** that exposes one HTTP endpoint.
 
@@ -20,7 +20,7 @@ So, in one sentence:
 
 ---
 
-## 2. What endpoint this blueprint exposes
+## What endpoint this blueprint exposes
 
 So the route exposed by this blueprint is:
 
@@ -30,7 +30,7 @@ POST /api/findDistanceBetween2Coord/
 
 ---
 
-## 3. What this endpoint expects as input
+## What this endpoint expects as input
 
 This endpoint expects a **JSON body** sent with an HTTP `POST` request.
 
@@ -61,7 +61,7 @@ Each item inside those lists must be an object with:
 
 ---
 
-## 4. Full example input
+## Full example input
 
 Here is the exact example input from the endpoint contract:
 
@@ -92,7 +92,7 @@ So there are **2 route calculations** total:
 
 ---
 
-## 6. What the endpoint returns
+## What the endpoint returns
 
 The endpoint returns a **nested dictionary** (JSON object inside JSON object).
 - the **first key** is the source index
@@ -118,7 +118,7 @@ And for each pair, you get:
 
 ---
 
-## 9. interpretation of the example response
+## Interpretation of the example response
 
 Given:
 
@@ -160,7 +160,7 @@ This means:
 ---
 
 
-## 22. Example with multiple sources and multiple destinations
+## Example with multiple sources and multiple destinations
 
 Suppose the request is:
 
@@ -203,9 +203,7 @@ A possible output shape would be:
 
 ---
 
-## 23. How to call this endpoint from another service
-
-## 30. Suggested short explanation
+## Suggested short explanation
 
 
 

@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 import asyncio
+from pathlib import Path
 
 # Importăm funcția de AI pe care tocmai am creat-o
-from services.groq_service import get_ai_filters
+from api.services.groq_service import get_ai_filters
 
 # Creăm Blueprint-ul
 search_bp = Blueprint('searchToFilters', __name__, url_prefix='/searchToFilters')
@@ -19,9 +20,16 @@ def search_to_filters():
 
     # 2. Apelăm serviciul nostru de AI
     try:
+
+        # CITIREA PROMPTULUI EXTERN
+        script_dir = Path(__file__).parent.parent
+        file_path = script_dir / 'resources' / 'textToFilters_prompt.txt'
+        with open(file_path, 'r', encoding='utf-8') as file:
+            mesaj_sistem = file.read()
+
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(get_ai_filters(user_prompt))
+        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem, user_prompt))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:

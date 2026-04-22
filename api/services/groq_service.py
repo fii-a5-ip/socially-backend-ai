@@ -7,18 +7,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-async def get_ai_filters(user_input: str) -> dict:
+async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
     """
     Preia input-ul utilizatorului, comunică cu Groq API, folosind setările din main.py și returnează un dicționar JSON.
     """
-    # 1. CITIREA PROMPTULUI EXTERN
-    try:
-        with open('prompt.txt', 'r', encoding='utf-8') as file:
-            mesaj_sistem = file.read()
-    except FileNotFoundError:
-        return {"error": "Error: file prompt.txt not found"}
 
-    # 2. ROTIREA CHEILOR
+    # ROTIREA CHEILOR
     chei_brute = [
         os.environ.get("GROQ_API_KEY_1"),
         # os.environ.get("GROQ_API_KEY_2"),
