@@ -1,27 +1,74 @@
 """
-Location Autocomplete API Blueprint
+AutocompleteLocationName API Blueprint
 
-This module provides a Flask Blueprint that wraps the Geoapify Autocomplete API 
-to return formatted, distance-sorted location suggestions based on user input.
 
-Endpoint: 
-    GET /api/autocompleteLocationName/
-
-Query Parameters:
-    - partialName (str, required): The search string or prefix (e.g., "Retr").
-    - userLatCoord (float, optional): The user's latitude.
-    - userLonCoord (float, optional): The user's longitude.
-
-Features:
-    - Geo-Fencing & Biasing: If coordinates are provided, the search is strictly 
-      filtered to a 100km radius and mathematically biased toward the user.
-    - Fault Tolerance: Implements a 5-attempt retry loop with exponential backoff 
-      to handle temporary upstream API failures.
-    - Data Normalization: Extracts and formats relevant fields (name, place_id, 
-      coordinates, and structured address) from the raw Geoapify GeoJSON response.
-    - Distance Sorting: Ensures the final JSON response is strictly ordered by 
-      proximity to the user.
+This file is a clean adapter between your app and Geoapify autocomplete.
 """
+"""
+    Main endpoint handler.
+
+    Very simple explanation:
+    - reads input from query params
+    - validates required data
+    - calls Geoapify autocomplete
+    - extracts only the fields needed by the app
+    - sorts results by distance
+    - returns JSON list
+
+    Input received from request.args:
+        partialName   -> required string
+        userLatCoord  -> optional string/float-like value
+        userLonCoord  -> optional string/float-like value
+
+    Success return value:
+        Flask JSON response containing a list of dictionaries.
+
+    Exact dictionary format for each result:
+        {
+            "name": <str or None>,
+            "place_id": <str or None>,
+            "coordinates": {
+                "lat": <float or None>,
+                "lon": <float or None>
+            },
+            "full_address": <str or None>,
+            "address": {
+                "country": <str or None>,
+                "city": <str or None>,
+                "street": <str or None>,
+                "street_number": <str or None>
+            },
+            "distance_meters": <number or inf>
+        }
+
+    Error returns:
+        400 -> if partialName is missing
+        500 -> if API key is missing
+        502 -> if Geoapify fails after all retries
+
+    Example input:
+        /api/autocompleteLocationName/?partialName=Retr&userLatCoord=44.4268&userLonCoord=26.1025
+
+    Example output:
+        [
+            {
+                "name": "Restaurant Demo",
+                "place_id": "123",
+                "coordinates": {
+                    "lat": 44.4268,
+                    "lon": 26.1025
+                },
+                "full_address": "Strada Exemplu 10, Bucharest, Romania",
+                "address": {
+                    "country": "Romania",
+                    "city": "Bucharest",
+                    "street": "Strada Exemplu",
+                    "street_number": "10"
+                },
+                "distance_meters": 215
+            }
+        ]
+    """
 
 import logging
 import os
