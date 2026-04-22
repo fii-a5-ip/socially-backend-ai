@@ -2,6 +2,7 @@ from flask import Flask
 from flask import Blueprint
 
 from api.routes.autocompleteLocationName import autocomplete_bp
+from api.routes.weather_blueprint import weather_blueprint
 
 # Blueprints help us split our methods into different files
 api_bp = Blueprint('api', __name__, url_prefix='/api') #the root path for all endpoints will be /api
@@ -20,6 +21,8 @@ def create_app():
 
     # Register blueprints
     api_bp.register_blueprint(autocomplete_bp)
+
+    api_bp.register_blueprint(weather_blueprint)
     #...
 
     app.register_blueprint(api_bp)
