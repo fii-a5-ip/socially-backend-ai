@@ -4,6 +4,8 @@ from flask import Blueprint
 # Importăm Blueprint-urile
 from api.routes.autocompleteLocationName import autocomplete_bp
 from api.routes.searchToFilters import search_bp
+from api.routes.weather_blueprint import weather_blueprint
+from api.routes.findDistanceBetween2Coord import distance_bp
 
 # Blueprints help us split our methods into different files
 api_bp = Blueprint('api', __name__, url_prefix='/api')  # the root path for all endpoints will be /api
@@ -22,6 +24,9 @@ def create_app():
     # Register blueprints
     api_bp.register_blueprint(autocomplete_bp)
     api_bp.register_blueprint(search_bp)
+    api_bp.register_blueprint(distance_bp)
+    api_bp.register_blueprint(weather_blueprint)
+    #...
 
     app.register_blueprint(api_bp)
 
