@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
 from services.geoapify_service import find_location
+import request
 
-locations_bp = Blueprint("locations", __name__, url_prefix="/locations")
+locations_bp = Blueprint("findLocation", __name__, url_prefix="/findLocation")
 
 
-@locations_bp.route("/find", methods=["GET"])
-def find_location_endpoint():
+@locations_bp.route("/", methods=["GET"])
+def findLocation():
     location_name = request.args.get("name", "").strip()
 
     if not location_name:

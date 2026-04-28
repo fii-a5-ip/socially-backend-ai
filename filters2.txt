@@ -1,0 +1,348 @@
+24-hour venue
+accessible entrance
+accessible outdoor area
+accessible parking
+accessible seating area
+accessible toilets
+adult only
+adventure park
+air conditioning
+allergen menu available
+amphitheatre
+amusement park
+app-based ordering
+aquarium
+arcade
+arena
+art gallery
+art studio
+athletics track
+av equipment
+axe throwing venue
+baby changing facilities
+badminton hall
+bakery
+bandstand
+bar
+baseball field
+basement venue
+basketball court
+bbq facilities
+beach bar
+beachfront
+bench seating
+bicycle parking
+bicycle rental
+bingo hall
+bistro
+board game cafe
+board games
+boat hire
+bookshop cafe
+bookstore
+booth seating
+botanical garden
+bouldering gym
+boutique
+bowling alley
+bowling alley bar
+braille menu
+brasserie
+brewery
+brewery tour
+brunch
+bubble tea shop
+buffet
+burger
+bus stop adjacent
+cable car
+cafe
+campground
+car parking
+card payment accepted
+cash only
+cashless venue
+casino
+castle
+changing places toilet
+children's menu
+cidery
+cigar lounge
+cinema
+cinema bar
+climbing wall
+coat check
+cocktail bar
+cocktail making
+comedy club
+comedy night
+communal tables
+community centre
+companion seating
+concert hall
+contactless payment
+cooking school
+countryside
+courtyard
+courtyard garden
+covered outdoor area
+coworking space
+craft beer bar
+craft workshop
+creperie
+crypto payment accepted
+dairy free options
+dance floor
+dance studio
+darts
+designated smoking area
+diner
+disabled parking bay
+distillery
+distillery tour
+dive bar
+dj
+dog park
+dog water bowl
+driving range
+early morning venue
+elevator access
+enclosed garden
+equestrian centre
+escape room
+esports venue
+ethernet available
+ev charging station
+family room
+farm shop cafe
+farm to table
+fast food
+fire pit
+fishing area
+fitness studio
+flexible layout
+flip chart available
+floor seating
+food court
+food hall
+food truck
+foosball
+forest setting
+free wifi
+gaming lounge
+garden centre cafe
+garden seating
+gazebo
+gin bar
+gluten free options
+go-kart track
+golf course
+ground level
+group painting
+gym
+halal certified
+hdmi connection
+hearing loop
+heated indoor space
+high chairs available
+high-speed wifi
+hiking trail
+hilltop
+historic ruins
+historic site
+hookah lounge
+hotel bar
+ice cream
+ice rink
+indoor seating
+island location
+juice bar
+karaoke
+kebab
+kids play area
+kosher certified
+lakeside
+laptop friendly
+large capacity
+large print menu
+laser tag venue
+late night venue
+library
+live music
+livestream capable
+lockers available
+long tables
+lounge
+lowered counter
+marina
+market hall
+market square
+martial arts studio
+mead hall
+meadow
+members club
+metro station nearby
+microbrewery
+microphone available
+mini golf
+monument
+multi-faith space
+multi-level venue
+multilingual staff
+museum
+museum cafe
+nature reserve
+night lighting
+nightclub
+nursing room
+nut free
+observatory
+off-roading area
+open air venue
+open mic
+open plan layout
+opera house
+organic food
+outdoor cinema
+outdoor heaters
+outdoor pet area
+outdoor seating
+outdoor smoking area
+paintball venue
+palace
+park setting
+parking available
+partitioned spaces
+patio
+pergola
+pet friendly
+picnic area
+picnic tables
+pizza
+planetarium
+playground on site
+plaza
+pool table
+pop-up venue
+pottery studio
+power outlets
+prayer room
+printing available
+private dining room
+private hire available
+projection screen
+projector available
+pub
+public beach
+public square
+public transport nearby
+pushchair accessible
+quiet hour
+quiz night
+ramen
+ramp access
+reservation required
+restaurant
+riverside
+roller skating rink
+rooftop bar
+rooftop garden
+rooftop seating
+rope course
+rugby pitch
+rum bar
+rural setting
+sake bar
+scenic viewpoint
+science centre
+sculpture garden
+seafood
+seasonal venue
+secure storage
+semi-open venue
+separate rooms
+shade available
+shopping mall
+sign language support
+skatepark
+ski resort
+small capacity
+smart tv
+smoke free
+sober bar
+social club
+social dancing
+sound system
+spa
+speakeasy
+sports bar
+sports field adjacent
+sports screening
+squash club
+stadium
+stage
+standing desk available
+standing room
+steakhouse
+step-free access
+street food market
+suburban setting
+supermarket
+surfing spot
+sushi
+swimming pool
+table tennis
+tapas
+taproom
+tavern
+tea house
+tennis club
+terrace
+theater
+theatre bar
+thrift store
+trampoline park
+translation available
+trivia night
+urban setting
+usb charging
+valet parking
+vegan options
+vegetarian options
+video conferencing setup
+volleyball court
+vr gaming
+water park
+water sports centre
+waterfront
+waterproof shelter
+wheelchair accessible
+whisky bar
+whiteboard available
+wide doorways
+wine bar
+winery
+winery tour
+wireless charging
+woodland
+workshop space
+year-round venue
+yoga studio
+zero waste venue
+zipline
+zoo
+italian cuisine
+mexican cuisine
+chinese cuisine
+indian cuisine
+french cuisine
+thai cuisine
+vietnamese cuisine
+greek cuisine
+spanish cuisine
+korean cuisine
+lebanese cuisine
+japanese cuisine
+caribbean cuisine
+middle eastern cuisine
+american cuisine
