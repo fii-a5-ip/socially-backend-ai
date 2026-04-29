@@ -39,4 +39,4 @@ jobs:
           with:
             # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
             args: >
-              - Dsonar.python.coverage.reportPaths=coverage.xml
+              -Dsonar.python.coverage.reportPaths=coverage.xml
