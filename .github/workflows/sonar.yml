@@ -32,7 +32,7 @@ jobs:
             pytest --cov=. --cov-report=xml
 
         - name: SonarCloud Scan
-          uses: SonarSource/sonarqube-scan-action@v2
+          uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
             SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
