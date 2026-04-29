@@ -30,6 +30,6 @@ numpy==2.3.5
 
 # --- CI/CD & Testing ---
 
-pytest
+pytest==9.0.3
 
-pytest-cov
+pytest-cov==7.1.0
