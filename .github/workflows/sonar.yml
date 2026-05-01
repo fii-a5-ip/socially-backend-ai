@@ -1,0 +1,44 @@
+name: SonarCloud Python Analysis
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+jobs:
+    build-and-analyze:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 
+          with:
+            fetch-depth: 0
+
+        - name: Set up Python
+          uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c
+          with:
+            python-version: '3.12'
+
+        - name: Install dependencies
+          run: |
+            # python -m pip install pip==24.0 --only-binary :all:
+            if [ -f requirements.txt ]; then 
+              pip install --only-binary :all: --require-hashes -r requirements.txt
+            fi
+
+        - name: Run tests and generate coverage report
+          run: |
+            # Rulează testele și creează raportul necesar pentru Sonar
+            pytest --cov=. --cov-report=xml
+
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          with:
+            # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
+            args: >
+              -Dsonar.python.coverage.reportPaths=coverage.xml
