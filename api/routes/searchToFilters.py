@@ -3,7 +3,7 @@ import asyncio
 from pathlib import Path
 
 # Importăm funcția de AI pe care tocmai am creat-o
-from api.services.groq_service import get_ai_filters
+from api.services.groq_service import prompt_ai
 
 # Creăm Blueprint-ul
 search_bp = Blueprint('searchToFilters', __name__, url_prefix='/searchToFilters')
@@ -29,7 +29,7 @@ def search_to_filters():
 
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem, user_prompt))
+        rezultat_ai = asyncio.run(prompt_ai(mesaj_sistem, user_prompt))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:

@@ -28,7 +28,7 @@ CRITICAL RULES - CONTROLLED SEMANTIC MODE:
 
 MANDATORY JSON SCHEMA:
 {
-    "filtre_id": [
+    "tags": [
         {
             "tag_name": "exact text from list",
             "id": int

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
+async def prompt_ai(mesaj_sistem: str, user_input: str) -> dict:
     """
     Preia input-ul utilizatorului, comunică cu Groq API, folosind setările din main.py și returnează un dicționar JSON.
     """

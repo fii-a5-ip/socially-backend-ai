@@ -30,7 +30,7 @@ Amenities (Evidence Only): You are STRICTLY FORBIDDEN from deducing hidden ameni
 
 MANDATORY JSON SCHEMA:
 {
-    "filtre_id": [
+    "tags": [
         {
             "tag_name": "exact text from list",
             "id": int

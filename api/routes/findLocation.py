@@ -4,12 +4,15 @@ import asyncio
 import json
 import os
 from dotenv import load_dotenv
+from flask import Blueprint, request, jsonify
 
-from api.services.groq_service import get_ai_filters
+from api.services.groq_service import prompt_ai
 
 load_dotenv()
 
 GEOAPIFY_API_KEY = os.getenv("GEOAPIFY_API_KEY")
+
+findLocation_bp = Blueprint('findLocation', __name__, url_prefix='/findLocation')
 
 def safe_get(url: str, params: dict) -> dict:
     response = requests.get(url, params=params, timeout=10)
@@ -87,7 +90,7 @@ def normalize_tags(api_tags: dict) -> list:
 
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem, json.dumps(api_tags)))
+        rezultat_ai = asyncio.run(prompt_ai(mesaj_sistem, json.dumps(api_tags)))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:
@@ -95,7 +98,7 @@ def normalize_tags(api_tags: dict) -> list:
 
         print(rezultat_ai)
         # 4. Dacă totul e ok, returnăm filtrele extrase!
-        return rezultat_ai['filtre_id']
+        return rezultat_ai['tags']
 
     except Exception as e:
         return {}
@@ -111,7 +114,7 @@ def normalize_opening_hours(string: str) -> dict:
 
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem, string))
+        rezultat_ai = asyncio.run(prompt_ai(mesaj_sistem, string))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:
@@ -185,7 +188,7 @@ def clean_dict(data):
     # Base case: return the value (strings, ints, bools)
     return data
 
-def find_location(place_id: str) -> list:
+def find_location_from_place_id(place_id: str) -> list:
     if not GEOAPIFY_API_KEY:
         raise Exception("Lipseste variabila GEOAPIFY_API_KEY")
 
@@ -200,7 +203,21 @@ def find_location(place_id: str) -> list:
 
     return clean_dict(results)
 
-if __name__ == '__main__':
-    # Palas
-    place_id = '5110afeb17ec9a3b4059b33f506edb934740f00103f901ad2f621d03000000c0020192030a566970657220436c7562e203246f70656e7374726565746d61703a76656e75653a6e6f64652f3133333737383735383835'
-    print(find_location(place_id))
+@findLocation_bp.route('/', methods=['POST'])
+def findLocation():
+
+    body = request.get_json()
+
+    if not body or 'place_id' not in body:
+        return jsonify({"error": "Te rog trimite un camp 'place_id' valid în format JSON."}), 400
+    
+    place_id = body['place_id']
+
+    return jsonify(find_location_from_place_id(place_id)), 200
+
+
+
+# if __name__ == '__main__':
+#     # Palas
+#     place_id = '5110afeb17ec9a3b4059b33f506edb934740f00103f901ad2f621d03000000c0020192030a566970657220436c7562e203246f70656e7374726565746d61703a76656e75653a6e6f64652f3133333737383735383835'
+#     print(find_location(place_id))
