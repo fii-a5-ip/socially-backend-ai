@@ -18,10 +18,10 @@ COPY ./api ./api
 EXPOSE 5000
 
 # 1. Creează un utilizator și un grup fără privilegii speciale (îl numim "appuser")
-RUN useradd -m appuser && chown -R appuser /app_py_ai
-
 # 2. Schimbă proprietarul folderului de lucru către noul utilizator 
 # (esențial dacă API-ul tău trebuie să scrie fișiere sau log-uri aici)
+RUN useradd -m appuser && chown -R appuser /app_py_ai
+
 
 
 # 3. Spune-i lui Docker să ruleze comenzile următoare și containerul cu acest utilizator
