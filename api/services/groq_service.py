@@ -5,18 +5,23 @@ import asyncio
 import itertools
 from dotenv import load_dotenv
 
+from api.services.db_service import extrage_filtre_din_db
+
 load_dotenv()
 
-async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
-    """
-    Preia input-ul utilizatorului, comunică cu Groq API, folosind setările din main.py și returnează un dicționar JSON.
-    """
 
-    # ROTIREA CHEILOR
+async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
+
+    # 1. CITIM FILTRELE DIN BAZA DE DATE ȘI LE ADĂUGĂM LA PROMPT
+    filtre_sql = extrage_filtre_din_db()
+    mesaj_sistem_complet = f"{mesaj_sistem}\n\nFILTRE DISPONIBILE DIN BAZA DE DATE (ID: Nume):\n{filtre_sql}"
+
+    # 2. ROTIREA CHEILOR
     chei_brute = [
         os.environ.get("GROQ_API_KEY_1"),
         # os.environ.get("GROQ_API_KEY_2"),
     ]
+
     CHEI_GROQ = [cheie for cheie in chei_brute if cheie]
 
     if not CHEI_GROQ:
@@ -26,9 +31,8 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
     URL = "https://api.groq.com/openai/v1/chat/completions"
 
     async with httpx.AsyncClient(timeout=30.0) as client:
-        # execut o singura cerere REQUEST
         mesaje_request_curent = [
-            {"role": "system", "content": mesaj_sistem},
+            {"role": "system", "content": mesaj_sistem_complet},
             {"role": "user", "content": user_input}
         ]
 
@@ -59,7 +63,7 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
                     ai_reply_string = data.get('choices')[0].get('message').get('content')
                     json_ai = orjson.loads(ai_reply_string)
 
-                    # În loc să dăm print, returnăm dicționarul curat către API
+                    # Returnăm dicționarul curat către API
                     return json_ai
 
                 elif response.status_code == 429:
@@ -72,5 +76,4 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
                 # Conexiune eșuată, așteptăm înainte de retry
                 await asyncio.sleep(2)
 
-        # Dacă se epuizează toate încercările:
         return {"error": "Capacitatea maximă a fost depășită pe toate cheile. Încearcă din nou peste puțin timp."}
