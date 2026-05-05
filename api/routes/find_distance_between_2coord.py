@@ -75,7 +75,7 @@ load_dotenv()
 distance_bp = Blueprint('findDistanceBetween2Coord', __name__, url_prefix='/findDistanceBetween2Coord')
 
 @distance_bp.route('/', methods=['POST'])
-def find_distance_between_2Coord():
+def find_distance_between_2coord():
     api_key = os.environ.get("GEOAPIFY_DISTANCE_API_KEY")
     api_url = f'https://api.geoapify.com/v1/routematrix?api_key={api_key}'
 
