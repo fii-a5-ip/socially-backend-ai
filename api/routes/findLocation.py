@@ -6,7 +6,8 @@ import os
 from dotenv import load_dotenv
 from flask import Blueprint, request, jsonify
 
-from api.services.groq_service import prompt_ai
+from api.services.groq_service import get_ai_filters
+from api.services.db_service import extrage_filtre_din_db
 
 load_dotenv()
 
@@ -90,7 +91,11 @@ def normalize_tags(api_tags: dict) -> list:
 
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(prompt_ai(mesaj_sistem, json.dumps(api_tags)))
+
+        filtre_db_text = extrage_filtre_din_db()
+        mesaj_sistem_complet = mesaj_sistem.replace("{FILTERS_PLACEHOLDER}", filtre_db_text)
+
+        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem_complet, json.dumps(api_tags)))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:
@@ -114,7 +119,7 @@ def normalize_opening_hours(string: str) -> dict:
 
         # Deoarece funcția get_ai_filters este asincronă (async), 
         # folosim asyncio.run() pentru a o apela din acest mediu sincron de Flask
-        rezultat_ai = asyncio.run(prompt_ai(mesaj_sistem, string))
+        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem, string))
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:

@@ -2,10 +2,10 @@ from flask import Flask
 from flask import Blueprint
 
 # Importăm Blueprint-urile
-from api.routes.autocompleteLocationName import autocomplete_bp
+from api.routes.autocomplete_location_name import autocomplete_bp
 from api.routes.searchToFilters import search_bp
 from api.routes.weather_blueprint import weather_blueprint
-from api.routes.findDistanceBetween2Coord import distance_bp
+from api.routes.find_distance_between_2coord import distance_bp
 from api.routes.findLocation import findLocation_bp
 
 # Blueprints help us split our methods into different files
@@ -13,14 +13,14 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')  # the root path for all 
 
 
 # A simple root endpoint just to check if the server is up
-@api_bp.route('/')
+@api_bp.route('/', methods=['GET'])
 def home():
     return "Welcome to the Socially API! Server is up!"
 
 
 # Create the factory function
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__) # NOSONAR
 
     # Register blueprints
     api_bp.register_blueprint(autocomplete_bp)
