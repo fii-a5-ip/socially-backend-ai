@@ -7,7 +7,7 @@ WORKDIR /app_py_ai
 COPY requirements.txt .
 
 # dacă nu mere, încearcă ”flask httpx orjson python-dotenv requests” înloc de ” -r requirements.txt”
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir --require-hashes -r requirements.txt
 
 
 # dacă nu mere încearcă sa adaugi "COPY . .” sau "ADD . ."
