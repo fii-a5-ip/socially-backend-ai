@@ -30,6 +30,13 @@ def search_to_filters():
         # 3. EXTRAGEM FILTRELE DIN BAZA DE DATE
         filtre_db_text = extrage_filtre_din_db()
 
+        # 4. INSERĂM FILTRELE ÎN MESAJUL SISTEM
+        # Înlocuim {FILTERS_PLACEHOLDER} cu lista din BD
+        mesaj_sistem_complet = mesaj_sistem.replace("{FILTERS_PLACEHOLDER}", filtre_db_text)
+
+        # 5. Apelăm AI-ul cu mesajul complet (care acum conține filtrele)
+        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem_complet, user_prompt))
+
         # === DEBUGGING: AFIȘĂM ÎN TERMINAL SĂ VEDEM CE SE ÎNTÂMPLĂ ===
         print("\n" + "=" * 40)
         print("1. Există {FILTERS_PLACEHOLDER} în txt?:", "{FILTERS_PLACEHOLDER}" in mesaj_sistem)
@@ -40,13 +47,6 @@ def search_to_filters():
             print("EROARE CRITICĂ: Nu s-a extras nimic din baza de date!")
         print("=" * 40 + "\n")
         # ==============================================================
-
-        # 4. INSERĂM FILTRELE ÎN MESAJUL SISTEM
-        # Înlocuim {FILTERS_PLACEHOLDER} cu lista din BD
-        mesaj_sistem_complet = mesaj_sistem.replace("{FILTERS_PLACEHOLDER}", filtre_db_text)
-
-        # 5. Apelăm AI-ul cu mesajul complet (care acum conține filtrele)
-        rezultat_ai = asyncio.run(get_ai_filters(mesaj_sistem_complet, user_prompt))
 
         if "error" in rezultat_ai:
             return jsonify(rezultat_ai), 502

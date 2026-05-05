@@ -9,17 +9,13 @@ from api.services.db_service import extrage_filtre_din_db
 
 load_dotenv()
 
-
 async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
-
-    # 1. CITIM FILTRELE DIN BAZA DE DATE ȘI LE ADĂUGĂM LA PROMPT
-    filtre_sql = extrage_filtre_din_db()
-    mesaj_sistem_complet = f"{mesaj_sistem}\n\nFILTRE DISPONIBILE DIN BAZA DE DATE (ID: Nume):\n{filtre_sql}"
-
+    
     # 2. ROTIREA CHEILOR
     chei_brute = [
         os.environ.get("GROQ_API_KEY_1"),
-        # os.environ.get("GROQ_API_KEY_2"),
+        os.environ.get("GROQ_API_KEY_2"),
+        os.environ.get("GROQ_API_KEY_3"),
     ]
 
     CHEI_GROQ = [cheie for cheie in chei_brute if cheie]
@@ -32,7 +28,7 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         mesaje_request_curent = [
-            {"role": "system", "content": mesaj_sistem_complet},
+            {"role": "system", "content": mesaj_sistem},
             {"role": "user", "content": user_input}
         ]
 
