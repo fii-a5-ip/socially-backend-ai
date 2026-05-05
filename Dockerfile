@@ -4,10 +4,10 @@ FROM python:3.11
 WORKDIR /app_py_ai 
 
 # dacă nu mere încearcă "COPY api.py ." și "COPY requirements.txt"     SAU       "ADD . ."
-COPY requirements.in .
+COPY requirements.txt .
 
-# dacă nu mere, încearcă ”flask httpx orjson python-dotenv requests” înloc de ” -r requirements.in”
-RUN pip install -r requirements.in
+# dacă nu mere, încearcă ”flask httpx orjson python-dotenv requests” înloc de ” -r requirements.txt”
+RUN pip install -r requirements.txt
 
 
 # dacă nu mere încearcă sa adaugi "COPY . .” sau "ADD . ."

@@ -1,8 +1,8 @@
 #--- Am adăugat asta fiindcă se plângea Docker ---
 
-httpx
+httpx==0.28.1
 
-orjson
+orjson==3.11.8
 
 # --- Core API ---
 
