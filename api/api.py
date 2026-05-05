@@ -37,4 +37,4 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False) #Am modificat linia aceasta ca să văd dacă funcționează Docker-ul. Înainte era ”app.run(debug=False)”
