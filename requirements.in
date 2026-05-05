@@ -1,3 +1,9 @@
+#--- Am adăugat asta fiindcă se plângea Docker ---
+
+httpx
+
+orjson
+
 # --- Core API ---
 
 Flask==3.1.3
