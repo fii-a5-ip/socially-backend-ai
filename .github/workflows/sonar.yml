@@ -42,3 +42,18 @@ jobs:
             # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
             args: >
               -Dsonar.python.coverage.reportPaths=coverage.xml
+    
+    
+    #Docker image (aka container) builder pt mai multe detalii:https://www.youtube.com/watch?v=HBiDvsjulQ0
+    publish_image: 
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: build
+          run: |
+           docker build . -t dn000/ceva_nume_docker_ai:latest
+        - name: publish
+          run: |
+           docker login -u dn000 -p ${{secrets.TOKEN_DOCKER_BACKEND_AI_DINU}}
+           docker push dn000/ceva_nume_docker_ai:latest   
