@@ -50,3 +50,73 @@ Triggers the recording and transcription process.
     "status": "success",
     "transcription": "Hello, how can I help you today?"
   }
+* **Possible Errors:**
+  * Raises an error if the recording hardware/microphone fails.
+
+### 2. `speechToText(audio)`
+
+* **Possible Errors:**
+  * Raises a `FileNotFoundError` if the audio file does not exist.
+  * Raises a Groq or connection `Exception` if the API key is invalid or if there are communication issues with the API.
+
+---
+
+* **Error (`500 Internal Server Error`)**
+  Occurs if the microphone is inaccessible, the internet connection drops, the API key is incorrect, or an internal error happens:
+  ```json
+  {
+    "status": "error",
+    "transcription": "",
+    "message": "An error occurred: [error details]"
+  }
+
+### Java Client for Speech-to-Text API Example
+
+This example uses `java.net.http.HttpClient` (native in Java 11+) to call the speech-to-text endpoint. 
+
+Since the recording takes 10 seconds on the server side, the Java client sends a `POST` request with an empty body (`noBody`) and waits for the transcription process to complete. The timeout is set to 60 seconds to ensure the connection remains active while the Whisper model processes the audio file.
+
+---
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+public class SpeechToTextClient {
+    public static void main(String[] args) {
+        // Set the full URL of your endpoint
+        // Make sure the port (e.g., 5000) matches your Flask server
+        String endpointUrl = "[http://127.0.0.1:5000/speechToText/](http://127.0.0.1:5000/speechToText/)";
+
+        // Create the HTTP client
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(15))
+                .build();
+
+        // Build the POST request
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(endpointUrl))
+                .header("Accept", "application/json")
+                .POST(HttpRequest.BodyPublishers.noBody()) // Empty body since recording occurs on the server
+                .timeout(Duration.ofSeconds(60)) // Set a 60-second timeout to allow processing time
+                .build();
+
+        try {
+            System.out.println("Sending request... Please speak into the microphone for the next 10 seconds.");
+            
+            // Send the request and wait for the response
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            // Print the output
+            System.out.println("\n--- Response Received ---");
+            System.out.println("HTTP Status Code: " + response.statusCode());
+            System.out.println("JSON Response: " + response.body());
+            
+        } catch (Exception e) {
+            System.err.println("An error occurred while calling the service: " + e.getMessage());
+        }
+    }
+}
