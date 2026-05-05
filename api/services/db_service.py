@@ -13,6 +13,8 @@ def extrage_filtre_din_db() -> str:
         # Preluam portul în siguranță (dacă lipsește din env, folosim 4000)
         port_env = os.getenv("DB_PORT", 4000)
 
+        # print("HOST:", os.getenv("DB_HOST"))
+        # print("USER:", os.getenv("DB_USER"))
         conn = mysql.connector.connect(
             host=os.getenv("DB_HOST"),
             port=int(port_env),
@@ -38,3 +40,6 @@ def extrage_filtre_din_db() -> str:
     except Exception as err:
         print(f"Eroare la baza de date: {err}")
         return ""
+    
+# if __name__ == "__main__":
+#     print(extrage_filtre_din_db())
