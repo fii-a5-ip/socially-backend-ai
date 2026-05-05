@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir --require-hashes -r requirements.txt
 
 # dacă nu mere încearcă sa adaugi "COPY . .” sau "ADD . ."
 
-COPY . .
+COPY api.py .
 
 #Nu cred ca este nevoie dar nici nu cred ca strica
 EXPOSE 5000
