@@ -72,7 +72,7 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
                 else:
                     return {"error": f"Eroare API: {response.status_code} - {response.text}"}
 
-            except httpx.RequestError as e:
+            except httpx.RequestError:
                 # Conexiune eșuată, așteptăm înainte de retry
                 await asyncio.sleep(2)
 

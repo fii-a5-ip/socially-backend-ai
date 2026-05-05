@@ -16,9 +16,9 @@ This file is a clean adapter between your app and Geoapify autocomplete.
     - returns JSON list
 
     Input received from request.args:
-        partialName   -> required string
-        userLatCoord  -> optional string/float-like value
-        userLonCoord  -> optional string/float-like value
+        partial_name   -> required string
+        user_lat_coord  -> optional string/float-like value
+        user_lon_coord  -> optional string/float-like value
 
     Success return value:
         Flask JSON response containing a list of dictionaries.
@@ -42,12 +42,12 @@ This file is a clean adapter between your app and Geoapify autocomplete.
         }
 
     Error returns:
-        400 -> if partialName is missing
+        400 -> if partial_name is missing
         500 -> if API key is missing
         502 -> if Geoapify fails after all retries
 
     Example input:
-        /api/autocompleteLocationName/?partialName=Retr&userLatCoord=44.4268&userLonCoord=26.1025
+        /api/autocompleteLocationName/?partial_name=Retr&user_lat_coord=44.4268&user_lon_coord=26.1025
 
     Example output:
         [
@@ -85,15 +85,15 @@ load_dotenv()
 autocomplete_bp = Blueprint('autocompleteLocationName', __name__, url_prefix='/autocompleteLocationName')
 
 @autocomplete_bp.route('/', methods=['GET'])
-def autocompleteLocationName():
+def autocomplete_location_name():
     api_key = os.environ.get("GEOAPIFY_AUTOCOMPLETE_API_KEY")
 
-    partialName = request.args.get('partialName')
-    userLatCoord = request.args.get('userLatCoord')
-    userLonCoord = request.args.get('userLonCoord')
+    partial_name = request.args.get('partial_name')
+    user_lat_coord = request.args.get('user_lat_coord')
+    user_lon_coord = request.args.get('user_lon_coord')
 
-    if not partialName:
-        return jsonify({"error": "Please provide a partialName parameter"}), 400
+    if not partial_name:
+        return jsonify({"error": "Please provide a partial_name parameter"}), 400
 
     if not api_key:
         return jsonify({"error": "Missing API Key"}), 500
@@ -101,14 +101,14 @@ def autocompleteLocationName():
     api_url = 'https://api.geoapify.com/v1/geocode/autocomplete'
 
     params = {
-        'text': partialName,
+        'text': partial_name,
         'apiKey': api_key,
         'limit': 30, # Only if we want an exact number of suggestions
-        # 'bias': f'proximity:{userLonCoord},{userLatCoord}'
+        # 'bias': f'proximity:{user_lon_coord},{user_lat_coord}'
     }
-    if userLatCoord and userLonCoord:
-        params['bias'] = f"proximity:{userLonCoord},{userLatCoord}"
-        params['filter'] = f"circle:{userLonCoord},{userLatCoord},{100000}" #only recommend within 100 km of the user
+    if user_lat_coord and user_lon_coord:
+        params['bias'] = f"proximity:{user_lon_coord},{user_lat_coord}"
+        params['filter'] = f"circle:{user_lon_coord},{user_lat_coord},{100000}" #only recommend within 100 km of the user
 
     max_retries = 5
     for attempt in range(max_retries):
