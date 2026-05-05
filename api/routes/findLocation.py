@@ -99,14 +99,14 @@ def normalize_tags(api_tags: dict) -> list:
         
         # 3. Verificăm dacă serviciul a returnat o eroare controlată
         if "error" in rezultat_ai:
-            return {}
+            return []
 
         print(rezultat_ai)
         # 4. Dacă totul e ok, returnăm filtrele extrase!
         return rezultat_ai['tags']
 
-    except Exception as e:
-        return {}
+    except Exception:
+        return []
     
 def normalize_opening_hours(string: str) -> dict:
     # Transform string into parsable format
@@ -127,7 +127,7 @@ def normalize_opening_hours(string: str) -> dict:
 
         # 4. Dacă totul e ok, returnăm filtrele extrase!
         return rezultat_ai
-    except Exception as e:
+    except Exception:
         return {}
 
 def get_dynamic_data(details: dict) -> dict:
@@ -195,7 +195,7 @@ def clean_dict(data):
 
 def find_location_from_place_id(place_id: str) -> list:
     if not GEOAPIFY_API_KEY:
-        raise Exception("Lipseste variabila GEOAPIFY_API_KEY")
+        raise ValueError("Lipseste variabila GEOAPIFY_API_KEY")
 
     results = {}
 
@@ -209,7 +209,7 @@ def find_location_from_place_id(place_id: str) -> list:
     return clean_dict(results)
 
 @findLocation_bp.route('/', methods=['POST'])
-def findLocation():
+def find_location():
 
     body = request.get_json()
 
@@ -222,7 +222,6 @@ def findLocation():
 
 
 
-# if __name__ == '__main__':
-#     # Palas
+# if __name__ == '__main__': #NOSONAR
 #     place_id = '5110afeb17ec9a3b4059b33f506edb934740f00103f901ad2f621d03000000c0020192030a566970657220436c7562e203246f70656e7374726565746d61703a76656e75653a6e6f64652f3133333737383735383835'
 #     print(find_location(place_id))
