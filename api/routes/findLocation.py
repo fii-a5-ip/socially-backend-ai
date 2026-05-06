@@ -6,6 +6,9 @@ import os
 from dotenv import load_dotenv
 from flask import Blueprint, request, jsonify
 
+# --- COD ADAUGAT PENTRU HARTA INTERACTIVA: Importul librariei Folium ---
+import folium
+
 from api.services.groq_service import get_ai_filters
 from api.services.db_service import extrage_filtre_din_db
 
@@ -192,6 +195,57 @@ def clean_dict(data):
     
     # Base case: return the value (strings, ints, bools)
     return data
+def build_map_data(location_data: dict) -> dict:
+    lat = location_data.get("coord", {}).get("lat")
+    lon = location_data.get("coord", {}).get("lon")
+
+    if lat is None or lon is None:
+        return {}
+
+    # --- COD ADAUGAT PENTRU HARTA INTERACTIVA: Generarea codului HTML pentru Leaflet ---
+    html_map = ""
+    try:
+        m = folium.Map(location=[lat, lon], zoom_start=16, tiles=None)
+        tile_url = f"https://maps.geoapify.com/v1/tile/osm-bright/{{z}}/{{x}}/{{y}}.png?apiKey={GEOAPIFY_API_KEY}"
+        
+        folium.TileLayer(
+            tiles=tile_url,
+            attr='Powered by Geoapify | © OpenStreetMap',
+            name='Geoapify Map',
+            max_zoom=20
+        ).add_to(m)
+
+        folium.Marker(
+            [lat, lon],
+            popup='Locația selectată',
+            icon=folium.Icon(color='green', icon='info-sign')
+        ).add_to(m)
+
+        html_map = m.get_root().render()
+        # Fix pentru zona gri: forțăm browser-ul să declanșeze 'resize' după 500ms pentru ca Leaflet să descarce tot
+        fix_script = "<script>setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 500);</script>"
+        html_map = html_map.replace('</body>', fix_script + '\n</body>')
+    except Exception as e:
+        print(f"Eroare la generarea hartii Folium: {e}")
+    # --- SFARSIT COD ADAUGAT ---
+
+    return {
+        "provider": "geoapify",
+        "interactive": True,
+        "center": {
+            "lat": lat,
+            "lon": lon
+        },
+        "zoom": 16,
+        "marker": {
+            "lat": lat,
+            "lon": lon,
+            "label": location_data.get("name", "Locația selectată")
+        },
+        "tile_url": f"https://maps.geoapify.com/v1/tile/osm-bright/{{z}}/{{x}}/{{y}}.png?apiKey={GEOAPIFY_API_KEY}",
+        # --- COD ADAUGAT PENTRU HARTA INTERACTIVA: Injectarea html-ului in JSON ---
+        "html": html_map
+    }
 
 def find_location_from_place_id(place_id: str) -> list:
     if not GEOAPIFY_API_KEY:
@@ -206,7 +260,32 @@ def find_location_from_place_id(place_id: str) -> list:
     results.update(static_properties)
     results.update(dynamic_properties)
 
+    results["map"] = build_map_data(results)
+
     return clean_dict(results)
+
+# --- COD ADAUGAT PENTRU HARTA INTERACTIVA: Ruta de debug pentru vizualizarea directa in browser ---
+@findLocation_bp.route('/view', methods=['GET'])
+def view_map():
+    """Ruta pur vizuala pentru a testa harta direct in browser (ex: /view?lat=47.155&lon=27.605)"""
+    lat = request.args.get('lat', type=float)
+    lon = request.args.get('lon', type=float)
+    
+    if lat is None or lon is None:
+        return "Te rog adauga coordonatele in link. Exemplu: ?lat=47.1551&lon=27.6051", 400
+        
+    try:
+        m = folium.Map(location=[lat, lon], zoom_start=16, tiles=None)
+        tile_url = f"https://maps.geoapify.com/v1/tile/osm-bright/{{z}}/{{x}}/{{y}}.png?apiKey={GEOAPIFY_API_KEY}"
+        folium.TileLayer(tiles=tile_url, attr='Powered by Geoapify', max_zoom=20).add_to(m)
+        folium.Marker([lat, lon], popup='Locația selectată', icon=folium.Icon(color='green', icon='info-sign')).add_to(m)
+        
+        html_map = m.get_root().render()
+        fix_script = "<script>setTimeout(function() { window.dispatchEvent(new Event('resize')); }, 500);</script>"
+        return html_map.replace('</body>', fix_script + '\n</body>')
+    except Exception as e:
+        return f"Eroare la generarea hartii: {e}", 500
+# --- SFARSIT COD ADAUGAT ---
 
 @findLocation_bp.route('/', methods=['POST'])
 def find_location():
