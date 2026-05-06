@@ -15,7 +15,7 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')  # the root path for all 
 # A simple root endpoint just to check if the server is up
 @api_bp.route('/', methods=['GET'])
 def home():
-    return "Welcome to the Socially API! Server is up!"
+    return "Welcome to the Socially API! Server is up!  Bolojan plang pentru tineeee"
 
 
 # Create the factory function
