@@ -1,44 +1,92 @@
-name: SonarCloud Python Analysis
+name: SonarCloud Analysis & AWS Deploy
 
 on:
-    push:
-        branches: ["main"]
-    pull_request:
-        branches: ["main"]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-    build-and-analyze:
-        runs-on: ubuntu-latest
+  build-and-analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd 
+        with:
+          fetch-depth: 0
 
-        steps:
-        - name: Checkout code
-          uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd 
-          with:
-            fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.14'
 
-        - name: Set up Python
-          uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
-          with:
-            python-version: '3.14'
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then 
+            pip install --only-binary :all: --require-hashes -r requirements.txt
+          fi
 
-        - name: Install dependencies
-          run: |
-            # python -m pip install pip==24.0 --only-binary :all:
-            if [ -f requirements.txt ]; then 
-              pip install --only-binary :all: --require-hashes -r requirements.txt
-            fi
+      - name: Run tests and generate coverage report
+        run: |
+         # Rulează testele și creează raportul necesar pentru Sonar
+          pytest --cov=. --cov-report=xml
 
-        - name: Run tests and generate coverage report
-          run: |
-            # Rulează testele și creează raportul necesar pentru Sonar
-            pytest --cov=. --cov-report=xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+        # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
+          args: >
+            -Dsonar.python.coverage.reportPaths=coverage.xml
 
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
-          env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          with:
-            # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
-            args: >
-              -Dsonar.python.coverage.reportPaths=coverage.xml
+  build-and-deploy:
+    needs: build-and-analyze # Regula logica: Asteapta terminarea cu succes a Job-ului 1
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' 
+    # Conditie logica: Facem deploy pe server DOAR cand codul este impins efectiv pe branch-ul main, nu si cand se deschide doar un Pull Request.
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: proiect-backend-api 
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user # INLOCUIESTE cu 'ec2-user' daca serverul vostru foloseste Amazon Linux in loc de Ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Autentificare ECR pe serverul EC2
+            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+            
+            # 2. Tragerea celei mai noi imagini din depozit
+            docker pull ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
+            
+            # 3. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
+            docker stop backend-app || true
+            docker rm backend-app || true
+            
+            # 4. Pornirea noului container cu expunerea portului
+            docker run -d --name backend-app -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
