@@ -84,9 +84,29 @@ jobs:
             # 2. Tragerea celei mai noi imagini din depozit
             docker pull ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
             
-            # 3. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
+            # 3. Setarea la environment variables in OS
+            mkdir -p ~/app
+            cd ~/app
+
+            cat << EOF > .env
+GEOAPIFY_AUTOCOMPLETE_API_KEY=${{ secrets.GEOAPIFY_AUTOCOMPLETE_API_KEY }}
+GEOAPIFY_DISTANCE_API_KEY=${{ secrets.GEOAPIFY_DISTANCE_API_KEY }}
+GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}
+GROQ_API_KEY_1=${{ secrets.GROQ_API_KEY_1 }}
+GROQ_API_KEY_2=${{ secrets.GROQ_API_KEY_2 }}
+GROQ_API_KEY_3=${{ secrets.GROQ_API_KEY_3 }}
+DB_HOST=${{ secrets.DB_HOST }}
+DB_PORT=${{ secrets.DB_PORT }}
+DB_USER=${{ secrets.DB_USER }}
+DB_PASS=${{ secrets.DB_PASS }}
+DB_NAME=${{ secrets.DB_NAME }}
+EOF
+
+            # 4. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
             docker stop backend-app || true
             docker rm backend-app || true
             
-            # 4. Pornirea noului container cu expunerea portului
-            docker run -d --name backend-app -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
+            # 5. Pornirea noului container cu expunerea portului
+            docker run -d --name backend-app --env-file .env -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
+
+
