@@ -75,7 +75,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ubuntu # INLOCUIESTE cu 'ec2-user' daca serverul vostru foloseste Amazon Linux in loc de Ubuntu
+          username: ec2-user # INLOCUIESTE cu 'ec2-user' daca serverul vostru foloseste Amazon Linux in loc de Ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # 1. Autentificare ECR pe serverul EC2
