@@ -25,6 +25,8 @@ python-dotenv==1.2.1
 
 mysql-connector-python==9.7.0
 
+folium==0.20.0
+
 
 # --- Data Science & Logica ---
 
