@@ -1,41 +1,22 @@
 # This blueprint manages the speech-to-text API routing and HTTP responses.
 # 
 # Core features:
-#   - Exposes a POST endpoint at `/speechToText/` to trigger the voice recording.
-#   - Handles incoming requests and sends back clear JSON responses in case of success or error.
+#   - Exposes a POST endpoint at `/speechToText/` to receive an audio file.
+#   - Handles multipart/form-data requests and returns JSON responses with transcriptions.
 # Components:
-#   - getRecording(): Captures audio from the microphone at 44.1 kHz, generates a unique 
-#                     temporary .wav file using UUIDs to prevent conflicts, and saves the data.
-#   - speechToText(): Manages the lifecycle of the recording and transcription process. 
-#                     It sends the temporary file to Groq's Whisper API and cleans up the 
-#                     file in a `finally` block to ensure no disk space is wasted.
-import requests
+#   - speechToText(): Manages the interaction with Groq's Whisper API.
+#                     It opens the saved temporary file, sends it for transcription, 
+#                     and ensures the file is deleted in a `finally` block to prevent disk bloat.
 import uuid
-import sounddevice as sd
 import os
 from flask import Blueprint, request, jsonify
-from scipy.io.wavfile import write
 from groq import Groq
 speech_blueprint=Blueprint("speechToText", __name__, url_prefix="/speechToText")
 
-# Records audio from the microphone and saves it into a temporary .wav file.    
-#     :param sec: Recording duration in seconds (default is 5).
-#     :return: The path to the temporary .wav file.
-def getRecording(sec=5):
-    fs = 44100
-    file_temp=f"voice_{uuid.uuid4().hex}.wav"
-    print(f"\n[LISTENING] I am listening for {sec} seconds...")
-    audio_data = sd.rec(int(sec * fs), samplerate=fs, channels=1)
-    sd.wait()
-    write(file_temp, fs, audio_data)
-    print("[INFO] Audio saved")
-    return file_temp
-
 api=Groq(api_key=os.environ.get('groq_key'))
-# Handles the complete process of recording, sending to Groq API, and returning the transcription.  
-#     :param sec: Recording duration in seconds.
-#     :return: The transcribed text.
-#     :raises e: Propagates any error to the endpoint.
+# Sends the audio file to Groq Whisper API and ensures file cleanup.
+#     :param audio: Path to the temporary audio file.
+#     :return: Transcribed text.
 def speechToText(audio):
     try:
         with open(audio, "rb") as audio_file:
@@ -48,10 +29,20 @@ def speechToText(audio):
             os.remove(audio)
 
 @speech_blueprint.route("/", methods=["POST"])
+# Endpoint to handle audio file uploads and trigger transcription.
+#     Expects a file attached to the 'file' key in a multipart/form-data request.
 def speech_post():
+    # Check if the post request has the file part
+    if 'file' not in request.files:
+        return jsonify({"status": "error", "transcription": ''}), 400
+    audio=request.files['file']
+    # Check if the user actually selected a file
+    if audio.filename == '':
+        return jsonify({"status": "error", "transcription": ''}), 400
     try:
-        audio=getRecording(10)
-        speech_recognized=speechToText(audio)
+        audio_filename=f"upload_{uuid.uuid4().hex}.mp3"
+        audio.save(audio_filename)
+        speech_recognized=speechToText(audio_filename)
         return jsonify({"status": "success", "transcription": speech_recognized}), 200
     except Exception as e:
         return jsonify({"status": "error", "transcription": ''}), 500
