@@ -33,6 +33,7 @@ beachfront
 bench seating
 bicycle parking
 bicycle rental
+billiard
 bingo hall
 bistro
 board game cafe

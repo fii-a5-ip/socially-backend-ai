@@ -212,7 +212,6 @@ def get_static_data(details: dict) -> dict:
 
     # Photo
     photo_url = details.get("image")
-            
     
     if not photo_url and "wiki_and_media" in details:
         wiki_data = details["wiki_and_media"]
