@@ -15,10 +15,10 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
     chei_brute = [
         os.environ.get("GROQ_API_KEY_1"),
         os.environ.get("GROQ_API_KEY_2"),
-        os.environ.get("GROQ_API_KEY_3"),
-        os.environ.get("GROQ_API_KEY_4"),
-        os.environ.get("GROQ_API_KEY_5"),
-        os.environ.get("GROQ_API_KEY_6")
+        os.environ.get("GROQ_API_KEY_3")
+        # os.environ.get("GROQ_API_KEY_4"),
+        # os.environ.get("GROQ_API_KEY_5"),
+        # os.environ.get("GROQ_API_KEY_6")
     ]
 
     CHEI_GROQ = [cheie for cheie in chei_brute if cheie]
