@@ -2,8 +2,9 @@ import json
 import os
 from flask import Blueprint, request, jsonify
 from api.services.groq_service import get_ai_filters
+import asyncio
 
-onboarding_bp = Blueprint('onboarding', __name__)
+onboarding_bp = Blueprint('onboardingProcess', __name__, url_prefix='/onboardingProcess')
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_PATH = os.path.join(BASE_DIR, '..', 'resources', 'onboarding_questions.json')
@@ -14,8 +15,8 @@ FILTERS_PATH = os.path.join(BASE_DIR, '..', '..', 'filters2.txt')
 with open(DATA_PATH, 'r', encoding='utf-8') as f:
     ONBOARDING_DATA = json.load(f)
 
-@onboarding_bp.route('/onboarding/process', methods=['POST'])
-async def process_step():
+@onboarding_bp.route('/', methods=['POST'])
+def process_step():
     data = request.json
     step = data.get('step')
 
@@ -87,7 +88,7 @@ async def process_step():
                                   .replace("{available_next_questions}", available_next_questions)
 
     # Apelăm Groq
-    groq_response = await get_ai_filters(mesaj_sistem=mesaj_sistem, user_input="Analizează contextul și returnează JSON-ul.")
+    groq_response = asyncio.run(get_ai_filters(mesaj_sistem=mesaj_sistem, user_input="Analizează contextul și returnează JSON-ul."))
 
     if "error" in groq_response:
         return jsonify({"error": groq_response["error"]}), 500
