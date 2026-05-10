@@ -27,6 +27,8 @@ mysql-connector-python==9.7.0
 
 folium==0.20.0
 
+groq==0.2.0
+
 
 # --- Data Science & Logica ---
 

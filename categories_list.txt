@@ -1,6 +1,6 @@
-### venue type & core activity ###
-24-hour venue
+## Venue Type ##
 adventure park
+amphitheatre
 amusement park
 aquarium
 arcade
@@ -14,16 +14,18 @@ bakery
 bandstand
 bar
 baseball field
+basement venue
 basketball court
 beach bar
-bingo hall
 bistro
+bingo hall
 board game cafe
 bookshop cafe
 bookstore
 bouldering gym
 boutique
 bowling alley
+bowling alley bar
 brasserie
 brewery
 bubble tea shop
@@ -34,28 +36,29 @@ castle
 cidery
 cigar lounge
 cinema
+cinema bar
 climbing wall
 cocktail bar
 comedy club
 community centre
 concert hall
+cooking school
+craft workshop
 coworking space
+craft beer bar
 creperie
-dance studio
 diner
 distillery
 dive bar
 dog park
 driving range
-early morning venue
-equestrian centre
 escape room
 esports venue
 farm shop cafe
-fast food
 fitness studio
 food court
 food hall
+food truck
 gaming lounge
 garden centre cafe
 gin bar
@@ -64,15 +67,13 @@ golf course
 gym
 hookah lounge
 hotel bar
+ice cream
 ice rink
 juice bar
 laser tag venue
-late night venue
 library
-lounge
 marina
 market hall
-market square
 martial arts studio
 mead hall
 members club
@@ -81,6 +82,7 @@ mini golf
 monument
 museum
 museum cafe
+nature reserve
 nightclub
 observatory
 opera house
@@ -88,20 +90,22 @@ outdoor cinema
 paintball venue
 palace
 planetarium
-pop-up venue
 pottery studio
 pub
 restaurant
 roller skating rink
 rooftop bar
+rope course
+rugby pitch
 rum bar
 sake bar
 science centre
+sculpture garden
 shopping mall
 skatepark
 ski resort
-sober bar
 social club
+spa
 speakeasy
 sports bar
 squash club
@@ -111,12 +115,13 @@ street food market
 supermarket
 taproom
 tavern
-tea house
 tennis club
+tea house
 theater
 theatre bar
 thrift store
 trampoline park
+vr gaming
 water park
 water sports centre
 whisky bar
@@ -125,98 +130,32 @@ winery
 yoga studio
 zoo
 
-### accessibility ###
-accessible entrance
-accessible outdoor area
-accessible parking
-accessible seating area
-accessible toilets
-braille menu
-changing places toilet
-companion seating
-disabled parking bay
-elevator access
-ground level
-hearing loop
-large print menu
-lowered counter
-multi-faith space
-prayer room
-pushchair accessible
-quiet hour
-ramp access
-sign language support
-step-free access
-translation available
-wheelchair accessible
-wide doorways
-
-### facilities & amenities ###
-air conditioning
-av equipment
-baby changing facilities
-bicycle parking
-bicycle rental
-car parking
-coat check
-designated smoking area
-ethernet available
-ev charging station
-family room
-flip chart available
-free wifi
-hdmi connection
-high chairs available
-high-speed wifi
-laptop friendly
-lockers available
-microphone available
-multi-level venue
-multilingual staff
-nursing room
-outdoor smoking area
-parking available
-power outlets
-printing available
-private hire available
-projection screen
-projector available
-secure storage
-smart tv
-smoke free
-sound system
-standing desk available
-usb charging
-valet parking
-video conferencing setup
-whiteboard available
-wireless charging
-
-### food & drink specifics ###
+## Food & Drink ##
 allergen menu available
+app-based ordering
 brunch
 buffet
 burger
 children's menu
 dairy free options
 farm to table
+fast food
 gluten free options
 halal certified
-ice cream
 kebab
 kosher certified
 nut free
 organic food
 pizza
-private dining room
 ramen
 seafood
 sushi
 tapas
 vegan options
 vegetarian options
+zero waste venue
 
-### international cuisines ###
+## Cuisine ##
 american cuisine
 caribbean cuisine
 chinese cuisine
@@ -233,10 +172,55 @@ spanish cuisine
 thai cuisine
 vietnamese cuisine
 
-### setting & atmosphere ###
-adult only
-basement venue
+## Accessibility ##
+accessible entrance
+accessible outdoor area
+accessible parking
+accessible seating area
+accessible toilets
+baby changing facilities
+braille menu
+changing places toilet
+companion seating
+disabled parking bay
+elevator access
+ground level
+hearing loop
+high chairs available
+large print menu
+lowered counter
+nursing room
+pushchair accessible
+quiet hour
+ramp access
+sign language support
+step-free access
+wheelchair accessible
+wide doorways
+
+## Seating & Layout ##
+bench seating
+booth seating
+communal tables
+flexible layout
+floor seating
+indoor seating
+large capacity
+long tables
+lounge
+multi-level venue
+open plan layout
+partitioned spaces
+private dining room
+semi-open venue
+separate rooms
+small capacity
+standing room
+
+## Outdoor Spaces ##
 beachfront
+bbq facilities
+botanical garden
 countryside
 courtyard
 courtyard garden
@@ -246,28 +230,22 @@ fire pit
 forest setting
 garden seating
 gazebo
-heated indoor space
-hiking trail
 hilltop
 historic ruins
-historic site
-indoor seating
 island location
 lakeside
-large capacity
+market square
 meadow
-nature reserve
-night lighting
 open air venue
-open plan layout
 outdoor heaters
 outdoor pet area
 outdoor seating
+outdoor smoking area
 park setting
 patio
 pergola
-pet friendly
 picnic area
+picnic tables
 plaza
 public beach
 public square
@@ -276,36 +254,103 @@ rooftop garden
 rooftop seating
 rural setting
 scenic viewpoint
-sculpture garden
-seasonal venue
-semi-open venue
-separate rooms
 shade available
-small capacity
 sports field adjacent
 suburban setting
-surfing spot
+terrace
 urban setting
 waterfront
 waterproof shelter
 woodland
-year-round venue
-zero waste venue
 
-### seating & layout ###
-bench seating
-booth seating
-communal tables
-flexible layout
-floor seating
-long tables
-partitioned spaces
-picnic tables
+## Entertainment & Activities ##
+board games
+boat hire
+bowling alley
+brewery tour
+cable car
+climbing wall
+cocktail making
+comedy night
+cooking school
+craft workshop
+darts
+distillery tour
+dj
+equestrian centre
+fishing area
+foosball
+group painting
+hiking trail
+karaoke
+kids play area
+live music
+mini golf
+off-roading area
+open mic
+paintball venue
+playground on site
+pool table
+quiz night
+rope course
+social dancing
+sports screening
+surfing spot
+table tennis
+trivia night
+volleyball court
+winery tour
+zipline
+
+## Events & Private Hire ##
+av equipment
+flip chart available
+hdmi connection
+livestream capable
+microphone available
+pop-up venue
+private hire available
+projection screen
+projector available
 stage
-standing room
+video conferencing setup
+whiteboard available
+workshop space
 
-### payment & bookings ###
-app-based ordering
+## Facilities & Amenities ##
+air conditioning
+bicycle parking
+bicycle rental
+coat check
+dance floor
+dance studio
+designated smoking area
+early morning venue
+ethernet available
+ev charging station
+family room
+free wifi
+heated indoor space
+high-speed wifi
+laptop friendly
+lockers available
+multi-faith space
+night lighting
+power outlets
+prayer room
+printing available
+secure storage
+smart tv
+smoke free
+sound system
+standing desk available
+swimming pool
+translation available
+usb charging
+valet parking
+wireless charging
+
+## Payment & Booking ##
 card payment accepted
 cash only
 cashless venue
@@ -313,40 +358,27 @@ contactless payment
 crypto payment accepted
 reservation required
 
-### activities & entertainment ###
-board games
-boat hire
-brewery tour
-cocktail making
-comedy night
-cooking school
-craft workshop
-dance floor
-darts
-distillery tour
-dj
-fishing area
-foosball
-group painting
-karaoke
-live music
-livestream capable
-off-roading area
-open mic
-playground on site
-pool table
-quiz night
-rope course
-social dancing
-sports screening
-table tennis
-trivia night
-winery tour
-workshop space
-zipline
-
-### location & transport ###
+## Transport & Parking ##
+bicycle parking
+bicycle rental
 bus stop adjacent
+car parking
+disabled parking bay
+ev charging station
 metro station nearby
+parking available
 public transport nearby
+valet parking
 
+## Atmosphere & Crowd ##
+24-hour venue
+adult only
+dog water bowl
+historic site
+late night venue
+members club
+multilingual staff
+pet friendly
+seasonal venue
+sober bar
+year-round venue
