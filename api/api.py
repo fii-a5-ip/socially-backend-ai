@@ -7,7 +7,7 @@ from api.routes.searchToFilters import search_bp
 from api.routes.weather_blueprint import weather_blueprint
 from api.routes.find_distance_between_2coord import distance_bp
 from api.routes.findLocation import findLocation_bp
-from api.routes.speechToText import speech_blueprint
+from api.routes.speech_to_text import speech_blueprint
 
 # Blueprints help us split our methods into different files
 api_bp = Blueprint('api', __name__, url_prefix='/api')  # the root path for all endpoints will be /api

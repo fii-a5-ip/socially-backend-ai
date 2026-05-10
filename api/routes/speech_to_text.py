@@ -17,13 +17,13 @@ api=Groq(api_key=os.environ.get('GROQ_API_KEY_1'))
 # Sends the audio file to Groq Whisper API and ensures file cleanup.
 #     :param audio: Path to the temporary audio file.
 #     :return: Transcribed text.
-def speechToText(audio):
+def speech_to_text(audio):
     try:
         with open(audio, "rb") as audio_file:
             response=api.audio.transcriptions.create(file=audio_file, model="whisper-large-v3")
         return response.text
-    except Exception as e:
-        raise e
+    # except Exception as e:
+    #     raise e
     finally:
         if audio and os.path.exists(audio):
             os.remove(audio)
@@ -42,9 +42,9 @@ def speech_post():
     try:
         audio_filename=f"upload_{uuid.uuid4().hex}.mp3"
         audio.save(audio_filename)
-        speech_recognized=speechToText(audio_filename)
+        speech_recognized=speech_to_text(audio_filename)
         return jsonify({"status": "success", "transcription": speech_recognized}), 200
-    except Exception as e:
+    except Exception:
         return jsonify({"status": "error", "transcription": ''}), 500
 
     
