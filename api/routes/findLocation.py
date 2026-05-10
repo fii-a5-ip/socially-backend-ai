@@ -210,6 +210,16 @@ def get_static_data(details: dict) -> dict:
     result['contact']['facebook'] = contact_data.get('facebook')
     result['contact']['instagram'] = contact_data.get('instagram')
 
+    # Photo
+    photo_url = details.get("image")
+            
+    
+    if not photo_url and "wiki_and_media" in details:
+        wiki_data = details["wiki_and_media"]
+        photo_url = wiki_data.get("image") or wiki_data.get("thumbnail")
+
+    result['photo_url'] = photo_url
+
     return result
 
 def normalize_tags(api_tags: dict) -> list:

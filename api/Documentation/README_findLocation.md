@@ -14,10 +14,6 @@ You send a `place_id`, and the endpoint returns available information about that
 
 Route exposed by this blueprint:
 
-POST /findLocation/
-
-In the full backend API, it may be available as:
-
 POST /api/findLocation/
 
 depending on how the Blueprint is registered in the main Flask app.
@@ -40,12 +36,13 @@ Exact input format:
 
 ---
 
-## Full example input
+## Full example input 1
 
+```json
 {
   "place_id": "5110afeb17ec9a3b4059b33f506edb934740f00103f901ad2f621d03000000c0020192030a566970657220436c7562e203246f70656e7374726565746d61703a76656e75653a6e6f64652f3133333737383735383835"
 }
-
+```
 ---
 
 ## What this means
@@ -62,6 +59,7 @@ The endpoint returns a JSON object with location information.
 
 Possible response fields:
 
+```json
 {
   "name": "Viper Club",
   "formatted_address": "Example Street, Iași, Romania",
@@ -113,6 +111,200 @@ Possible response fields:
     "html": "<html>...</html>"
   }
 }
+```
+
+---
+
+## Full example input 2
+
+```json
+{
+  "place_id": "5112386d21235b024059effbdc75db6d4840f00102f901747f4c0000000000c0020192030c45696666656c20546f776572"
+}
+```
+---
+
+
+
+## What the endpoint returns
+
+The endpoint returns a JSON object with location information.
+
+Possible response fields:
+
+```json
+{
+    "address": {
+        "city": "Paris",
+        "country": "France",
+        "postcode": "75007",
+        "state": "Ile-de-France",
+        "street": "Avenue Anatole France",
+        "street_number": "5"
+    },
+    "contact": {
+        "website": "https://www.toureiffel.paris/"
+    },
+    "coord": {
+        "lat": 48.8582599,
+        "lon": 2.2945006
+    },
+    "formatted_address": "Eiffel Tower, 5 Avenue Anatole France, 75007 Paris, France",
+    "map": {
+        "center": {
+            "lat": 48.8582599,
+            "lon": 2.2945006
+        },
+        "html": "<!DOCTYPE html>...</html>",
+        "interactive": true,
+        "marker": {
+            "label": "Tour Eiffel",
+            "lat": 48.8582599,
+            "lon": 2.2945006
+        },
+        "provider": "geoapify",
+        "tile_url": "https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=68881ed72bd845498f9b71e1e908514e",
+        "zoom": 16
+    },
+    "name": "Tour Eiffel",
+    "opening_hours": {
+        "default_schedule": {
+            "friday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "monday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "saturday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "sunday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "thursday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "tuesday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ],
+            "wednesday": [
+                {
+                    "close": "23:45",
+                    "open": "09:30"
+                }
+            ]
+        },
+        "seasonal_overrides": [
+            {
+                "end_date": "09-02",
+                "schedule": {
+                    "friday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "monday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "saturday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "sunday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "thursday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "tuesday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ],
+                    "wednesday": [
+                        {
+                            "close": "23:59",
+                            "open": "09:00"
+                        },
+                        {
+                            "close": "00:45",
+                            "open": "00:00"
+                        }
+                    ]
+                },
+                "start_date": "06-21"
+            }
+        ],
+        "specific_closed_dates": [
+            "07-14",
+            "07-15"
+        ]
+    },
+    "operator": "Société d’Exploitation de la Tour Eiffel",
+    "photo_url": "https://fr.wikipedia.org/wiki/Fichier:Tour_Eiffel_Wikimedia_Commons.jpg",
+    "tags": [
+        {
+            "id": 200,
+            "tag_name": "monument"
+        }
+    ]
+}
+```
 
 ---
 
@@ -142,6 +334,7 @@ For example, these fields may be missing:
 - `opening_hours`
 - `map`
 - `map.html`
+- `photo_url`
 
 Important:
 
