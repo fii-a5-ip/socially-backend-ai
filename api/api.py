@@ -8,6 +8,7 @@ from api.routes.weather_blueprint import weather_blueprint
 from api.routes.find_distance_between_2coord import distance_bp
 from api.routes.findLocation import findLocation_bp
 from api.routes.onboarding import onboarding_bp
+from api.routes.speech_to_text import speech_blueprint
 
 # Blueprints help us split our methods into different files
 api_bp = Blueprint('api', __name__, url_prefix='/api')  # the root path for all endpoints will be /api
@@ -31,6 +32,8 @@ def create_app():
     api_bp.register_blueprint(findLocation_bp)
     api_bp.register_blueprint(onboarding_bp)
 
+    api_bp.register_blueprint(speech_blueprint)
+    
     #...
 
     app.register_blueprint(api_bp)

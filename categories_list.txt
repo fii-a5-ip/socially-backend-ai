@@ -1,0 +1,384 @@
+## Venue Type ##
+adventure park
+amphitheatre
+amusement park
+aquarium
+arcade
+arena
+art gallery
+art studio
+athletics track
+axe throwing venue
+badminton hall
+bakery
+bandstand
+bar
+baseball field
+basement venue
+basketball court
+beach bar
+bistro
+bingo hall
+board game cafe
+bookshop cafe
+bookstore
+bouldering gym
+boutique
+bowling alley
+bowling alley bar
+brasserie
+brewery
+bubble tea shop
+cafe
+campground
+casino
+castle
+cidery
+cigar lounge
+cinema
+cinema bar
+climbing wall
+cocktail bar
+comedy club
+community centre
+concert hall
+cooking school
+craft workshop
+coworking space
+craft beer bar
+creperie
+diner
+distillery
+dive bar
+dog park
+driving range
+escape room
+esports venue
+farm shop cafe
+fitness studio
+food court
+food hall
+food truck
+gaming lounge
+garden centre cafe
+gin bar
+go-kart track
+golf course
+gym
+hookah lounge
+hotel bar
+ice cream
+ice rink
+juice bar
+laser tag venue
+library
+marina
+market hall
+martial arts studio
+mead hall
+members club
+microbrewery
+mini golf
+monument
+museum
+museum cafe
+nature reserve
+nightclub
+observatory
+opera house
+outdoor cinema
+paintball venue
+palace
+planetarium
+pottery studio
+pub
+restaurant
+roller skating rink
+rooftop bar
+rope course
+rugby pitch
+rum bar
+sake bar
+science centre
+sculpture garden
+shopping mall
+skatepark
+ski resort
+social club
+spa
+speakeasy
+sports bar
+squash club
+stadium
+steakhouse
+street food market
+supermarket
+taproom
+tavern
+tennis club
+tea house
+theater
+theatre bar
+thrift store
+trampoline park
+vr gaming
+water park
+water sports centre
+whisky bar
+wine bar
+winery
+yoga studio
+zoo
+
+## Food & Drink ##
+allergen menu available
+app-based ordering
+brunch
+buffet
+burger
+children's menu
+dairy free options
+farm to table
+fast food
+gluten free options
+halal certified
+kebab
+kosher certified
+nut free
+organic food
+pizza
+ramen
+seafood
+sushi
+tapas
+vegan options
+vegetarian options
+zero waste venue
+
+## Cuisine ##
+american cuisine
+caribbean cuisine
+chinese cuisine
+french cuisine
+greek cuisine
+indian cuisine
+italian cuisine
+japanese cuisine
+korean cuisine
+lebanese cuisine
+mexican cuisine
+middle eastern cuisine
+spanish cuisine
+thai cuisine
+vietnamese cuisine
+
+## Accessibility ##
+accessible entrance
+accessible outdoor area
+accessible parking
+accessible seating area
+accessible toilets
+baby changing facilities
+braille menu
+changing places toilet
+companion seating
+disabled parking bay
+elevator access
+ground level
+hearing loop
+high chairs available
+large print menu
+lowered counter
+nursing room
+pushchair accessible
+quiet hour
+ramp access
+sign language support
+step-free access
+wheelchair accessible
+wide doorways
+
+## Seating & Layout ##
+bench seating
+booth seating
+communal tables
+flexible layout
+floor seating
+indoor seating
+large capacity
+long tables
+lounge
+multi-level venue
+open plan layout
+partitioned spaces
+private dining room
+semi-open venue
+separate rooms
+small capacity
+standing room
+
+## Outdoor Spaces ##
+beachfront
+bbq facilities
+botanical garden
+countryside
+courtyard
+courtyard garden
+covered outdoor area
+enclosed garden
+fire pit
+forest setting
+garden seating
+gazebo
+hilltop
+historic ruins
+island location
+lakeside
+market square
+meadow
+open air venue
+outdoor heaters
+outdoor pet area
+outdoor seating
+outdoor smoking area
+park setting
+patio
+pergola
+picnic area
+picnic tables
+plaza
+public beach
+public square
+riverside
+rooftop garden
+rooftop seating
+rural setting
+scenic viewpoint
+shade available
+sports field adjacent
+suburban setting
+terrace
+urban setting
+waterfront
+waterproof shelter
+woodland
+
+## Entertainment & Activities ##
+board games
+boat hire
+bowling alley
+brewery tour
+cable car
+climbing wall
+cocktail making
+comedy night
+cooking school
+craft workshop
+darts
+distillery tour
+dj
+equestrian centre
+fishing area
+foosball
+group painting
+hiking trail
+karaoke
+kids play area
+live music
+mini golf
+off-roading area
+open mic
+paintball venue
+playground on site
+pool table
+quiz night
+rope course
+social dancing
+sports screening
+surfing spot
+table tennis
+trivia night
+volleyball court
+winery tour
+zipline
+
+## Events & Private Hire ##
+av equipment
+flip chart available
+hdmi connection
+livestream capable
+microphone available
+pop-up venue
+private hire available
+projection screen
+projector available
+stage
+video conferencing setup
+whiteboard available
+workshop space
+
+## Facilities & Amenities ##
+air conditioning
+bicycle parking
+bicycle rental
+coat check
+dance floor
+dance studio
+designated smoking area
+early morning venue
+ethernet available
+ev charging station
+family room
+free wifi
+heated indoor space
+high-speed wifi
+laptop friendly
+lockers available
+multi-faith space
+night lighting
+power outlets
+prayer room
+printing available
+secure storage
+smart tv
+smoke free
+sound system
+standing desk available
+swimming pool
+translation available
+usb charging
+valet parking
+wireless charging
+
+## Payment & Booking ##
+card payment accepted
+cash only
+cashless venue
+contactless payment
+crypto payment accepted
+reservation required
+
+## Transport & Parking ##
+bicycle parking
+bicycle rental
+bus stop adjacent
+car parking
+disabled parking bay
+ev charging station
+metro station nearby
+parking available
+public transport nearby
+valet parking
+
+## Atmosphere & Crowd ##
+24-hour venue
+adult only
+dog water bowl
+historic site
+late night venue
+members club
+multilingual staff
+pet friendly
+seasonal venue
+sober bar
+year-round venue

@@ -1,3 +1,132 @@
+"""
+==============================================================================
+findLocation API Blueprint
+==============================================================================
+
+This endpoint receives a Geoapify place_id and returns available information
+about that location.
+
+The response may contain:
+- name
+- formatted address
+- coordinates
+- contact information
+- tags
+- opening hours
+- interactive map data
+
+You must send a POST request with JSON like this:
+
+{
+    "place_id": "5110afeb17ec9a3b4059b33f506edb934740f00103f901ad2f621d03000000c0020192030a566970657220436c7562e203246f70656e7374726565746d61703a76656e75653a6e6f64652f3133333737383735383835"
+}
+
+EXPLANATION:
+
+- "place_id" = unique identifier received from Geoapify
+
+The place_id is usually obtained from:
+- autocomplete endpoints
+- search endpoints
+- previous Geoapify responses
+
+--------------------------------------------------------------------------
+
+IMPORTANT FOR BACKEND CORE:
+
+Some fields in the response are OPTIONAL.
+
+The backend depends on Geoapify responses, therefore:
+- not every place has contact information
+- not every place has opening hours
+- not every place has social media links
+- not every place has address details
+- not every place has map data
+
+Also:
+
+Before returning the JSON, the backend removes:
+- null values
+- empty strings
+- empty arrays
+- empty objects
+
+This means some fields may be COMPLETELY MISSING from the final response.
+
+Backend Core MUST parse the response defensively and always check:
+- if a field exists
+- if nested objects exist
+- if values are null
+
+to avoid:
+- NullPointerException
+- missing key errors
+- invalid parsing errors
+
+--------------------------------------------------------------------------
+
+WHAT THE ENDPOINT RETURNS (OUTPUT):
+
+Example response:
+
+{
+    "name": "Viper Club",
+
+    "formatted_address": "Iași, Romania",
+
+    "address": {
+        "country": "Romania",
+        "city": "Iași",
+        "street": "Example Street",
+        "street_number": "10"
+    },
+
+    "coord": {
+        "lat": 47.1585,
+        "lon": 27.6014
+    },
+
+    "contact": {
+        "phone": "+40123456789",
+        "website": "https://example.com"
+    },
+
+    "tags": [
+        "club",
+        "entertainment"
+    ],
+
+    "opening_hours": {
+        "monday": {
+            "open": "10:00",
+            "close": "22:00"
+        }
+    },
+
+    "map": {
+        "provider": "geoapify",
+        "interactive": true,
+        "zoom": 16,
+        "html": "<html>...</html>"
+    }
+}
+
+--------------------------------------------------------------------------
+
+IMPORTANT:
+
+The response structure is NOT guaranteed to always contain all fields.
+
+Example:
+- response["contact"] may not exist
+- response["contact"]["phone"] may not exist
+- response["opening_hours"] may not exist
+- response["map"] may not exist
+
+Always validate fields before using them.
+
+==============================================================================
+"""
 import requests
 from pathlib import Path
 import asyncio
@@ -80,6 +209,15 @@ def get_static_data(details: dict) -> dict:
     result['contact']['phone'] = contact_data.get('phone')
     result['contact']['facebook'] = contact_data.get('facebook')
     result['contact']['instagram'] = contact_data.get('instagram')
+
+    # Photo
+    photo_url = details.get("image")
+    
+    if not photo_url and "wiki_and_media" in details:
+        wiki_data = details["wiki_and_media"]
+        photo_url = wiki_data.get("image") or wiki_data.get("thumbnail")
+
+    result['photo_url'] = photo_url
 
     return result
 
