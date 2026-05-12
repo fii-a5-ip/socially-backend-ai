@@ -13,13 +13,13 @@ Sistemul evită efectul de "Tunnel Vision" prin utilizarea unor **întrebări mu
 * **Metodă:** `POST`
 * **Content-Type:** `application/json`
 
-*(Notă pentru Frontend: Acest endpoint este "stateless". Asta înseamnă că backend-ul nu ține minte conversația între request-uri. Este responsabilitatea Frontend-ului să stocheze și să trimită istoricul complet la fiecare apel).*
+*(Notă pentru Backend-Core: Acest endpoint este "stateless". Asta înseamnă că Backend-AI-ul nu ține minte conversația între request-uri. Este responsabilitatea Backend-Core-ului să stocheze și să trimită istoricul complet la fiecare apel).*
 
 ### Faza 1: Inițializarea (Pasul 0 - Formularul de start)
 Se execută o singură dată, imediat după ce utilizatorul completează formularul inițial (nume, vârstă, ocupație). 
-**Atenție:** La acest pas NU se apelează AI-ul. Backend-ul folosește un algoritm intern de parsare pentru a calcula automat un profil de bază și a returna prima întrebare hiper-personalizată.
+**Atenție:** La acest pas NU se apelează AI-ul. Backend-AI-ul folosește un algoritm intern de parsare pentru a calcula automat un profil de bază și a returna prima întrebare hiper-personalizată.
 
-**📥 Input trimis de Frontend:**
+**📥 Input trimis de Backend-Core:**
 ```json
 {
     "step": 0,
@@ -33,8 +33,8 @@ Se execută o singură dată, imediat după ce utilizatorul completează formula
 }
 ```
 
-**📤 Output returnat de Backend:**
-Frontend-ul trebuie doar să ia valoarea din `question_text` și să o afișeze ca prim mesaj al AI-ului în interfața de chat.
+**📤 Output returnat de Backend-AI:**
+Backend-Core-ul trebuie doar să ia valoarea din `question_text` și să o afișeze ca prim mesaj al AI-ului în interfața de chat.
 ```json
 {
     "status": "start",
@@ -47,9 +47,9 @@ Frontend-ul trebuie doar să ia valoarea din `question_text` și să o afișeze 
 ---
 
 ### Faza 2: Conversația AI (Pașii 1, 2 și 3)
-Aici începe interacțiunea reală cu motorul AI (LLM). Utilizatorul răspunde la întrebarea de pe ecran, iar Frontend-ul trebuie să împacheteze Perechea (Întrebare + Răspuns) și să o trimită la backend.
+Aici începe interacțiunea reală cu motorul AI (LLM). Utilizatorul răspunde la întrebarea de pe ecran, iar Backend-Core-ul trebuie să împacheteze Perechea (Întrebare + Răspuns) și să o trimită la Backend-AI.
 
-**REGULA DE AUR PENTRU FRONTEND:** Array-ul `conversation_history` trebuie să se acumuleze cu fiecare pas!
+**REGULA DE AUR PENTRU Backend-Core:** Array-ul `conversation_history` trebuie să se acumuleze cu fiecare pas!
 * La `step: 1` trimiți **1 pereche** {q, a}.
 * La `step: 2` trimiți **2 perechi** {q, a}.
 * La `step: 3` trimiți **3 perechi** {q, a}.
@@ -68,7 +68,7 @@ Aici începe interacțiunea reală cu motorul AI (LLM). Utilizatorul răspunde l
 ```
 
 **📤 Output Intermediar (Primit la Pașii 1 și 2):**
-Backend-ul returnează statusul `continue` și următoarea întrebare pe care Frontend-ul o va afișa pe ecran.
+Backend-AI-ul returnează statusul `continue` și următoarea întrebare pe care Backend-Core-ul o va afișa pe ecran.
 ```json
 {
     "status": "continue",
@@ -97,7 +97,7 @@ Backend-ul returnează statusul `continue` și următoarea întrebare pe care Fr
 ```
 
 **📤 Output Final (Primit la Pasul 3):**
-Când conversația se termină (după ce user-ul a trimis și al 3-lea răspuns), Backend-ul schimbă statusul în `complete`. În acest moment, Frontend-ul poate închide modulul de chat și poate salva profilul.
+Când conversația se termină (după ce user-ul a trimis și al 3-lea răspuns), Backend-AI-ul schimbă statusul în `complete`. În acest moment, Backend-Core-ul poate închide modulul de chat și poate salva profilul.
 ```json
 {
     "status": "complete",
@@ -117,7 +117,7 @@ Comportamentul său este dictat de următoarele principii inginerești inserate 
 Modelul este obligat să returneze un obiect JSON care începe cu cheia `"analiza_logica"`. Forțând AI-ul să scrie un plan de acțiune *înainte* de a lista filtrele, prevenim erorile. El trebuie să justifice de ce a extras un filtru și de ce a ignorat altul.
 
 ### B. Memoria Completă (Cumularea Filtrelor)
-Deoarece LLM-urile suferă de *Recency Bias* (uită începutul conversației și se focusează doar pe ultimul mesaj), AI-ul a fost instruit să analizeze de fiecare dată **tot istoricul** primit și să facă un „merge” (o îmbinare) al tuturor preferințelor validate până la pasul curent. Acesta este motivul pentru care Frontend-ul trebuie să trimită mereu array-ul complet.
+Deoarece LLM-urile suferă de *Recency Bias* (uită începutul conversației și se focusează doar pe ultimul mesaj), AI-ul a fost instruit să analizeze de fiecare dată **tot istoricul** primit și să facă un „merge” (o îmbinare) al tuturor preferințelor validate până la pasul curent. Acesta este motivul pentru care Backend-Core-ul trebuie să trimită mereu array-ul complet.
 
 ### C. Prioritatea Temporală (Răzgândirea)
 Dacă utilizatorul se contrazice (ex. la Pasul 1 cere carne, la Pasul 3 zice că e vegetarian), AI-ul acordă prioritate absolută ultimului răspuns și **elimină** din array filtrele anterioare care intră în conflict direct.
