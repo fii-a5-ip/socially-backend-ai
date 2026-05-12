@@ -5,6 +5,8 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  repository_dispatch:
+    types: [ec2_instance_ready]
 
 jobs:
   build-and-analyze:
