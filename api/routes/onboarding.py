@@ -9,7 +9,7 @@ onboarding_bp = Blueprint('onboardingProcess', __name__, url_prefix='/onboarding
 BASE_DIR = os.path.dirname(__file__)
 DATA_PATH = os.path.join(BASE_DIR, '..', 'resources', 'onboarding_questions.json')
 PROMPT_PATH = os.path.join(BASE_DIR, '..', 'resources', 'onboarding_prompt.txt')
-FILTERS_PATH = os.path.join(BASE_DIR, '..', '..', 'filters2.txt')
+FILTERS_PATH = os.path.join(BASE_DIR, '..', 'resources', 'filters.txt')
 
 # Încărcăm dicționarul de întrebări o singură dată la pornire
 with open(DATA_PATH, 'r', encoding='utf-8') as f:
