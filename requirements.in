@@ -34,6 +34,9 @@ pandas==2.3.3
 
 numpy==2.3.5
 
+Flask-Caching==2.4.0
+redis==7.4.0
+
 
 
 # --- CI/CD & Testing ---

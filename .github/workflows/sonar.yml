@@ -89,6 +89,15 @@ jobs:
             mkdir -p ~/app
             cd ~/app
 
+            # Creare retea daca nu exista
+            docker network create retea-proiect || true
+
+            # --- DEPLOY REDIS ---
+            docker stop redis-cache || true
+            docker rm redis-cache || true
+            docker pull redis:7.2-alpine
+            docker run -d --name redis-cache --network retea-proiect --restart unless-stopped redis:7.2-alpine --appendonly yes
+
             echo 'GEOAPIFY_AUTOCOMPLETE_API_KEY=${{ secrets.GEOAPIFY_AUTOCOMPLETE_API_KEY }}' > .env
             echo 'GEOAPIFY_DISTANCE_API_KEY=${{ secrets.GEOAPIFY_DISTANCE_API_KEY }}' >> .env
             echo 'GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}' >> .env
@@ -100,12 +109,14 @@ jobs:
             echo 'DB_USER=${{ secrets.DB_USER }}' >> .env
             echo 'DB_PASS=${{ secrets.DB_PASS }}' >> .env
             echo 'DB_NAME=${{ secrets.DB_NAME }}' >> .env
+            echo 'REDIS_URL=redis://redis-cache:6379/0' >> .env
 
             # 4. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
             docker stop backend-ai || true
             docker rm backend-ai || true
             
             # 5. Pornirea noului container cu expunerea portului
-            docker run -d --name backend-ai --env-file .env --network retea-proiect ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
+            # --- DEPLOY BACKEND ---
+            docker run -d --name backend-ai --env-file .env --network retea-proiect --restart unless-stopped -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
 
 
