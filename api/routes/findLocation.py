@@ -140,7 +140,7 @@ import folium
 
 from api.services.groq_service import get_ai_filters
 from api.services.db_service import extrage_filtre_din_db
-from api.api import cache
+from api.extensions import cache
 
 load_dotenv()
 
