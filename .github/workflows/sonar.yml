@@ -41,8 +41,13 @@ jobs:
         with:
         # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
           args: >
+            -Dsonar.projectKey=socially-backend-ai
+            -Dsonar.organization=fii-a5-ip
+            -Dsonar.python.version=3.12
             -Dsonar.python.coverage.reportPaths=coverage.xml
-
+            -Dsonar.sources=api
+            -Dsonar.tests=tests
+            
   build-and-deploy:
     needs: build-and-analyze # Regula logica: Asteapta terminarea cu succes a Job-ului 1
     runs-on: ubuntu-latest
