@@ -21,7 +21,7 @@ from api.routes.findLocation import findLocation_bp
 
 @pytest.fixture
 def client():
-    app = Flask(__name__)
+    app = Flask(__name__) #NOSONAR
     app.config['TESTING'] = True
     
     # Mimic the real app's blueprint nesting under /api
@@ -32,7 +32,7 @@ def client():
         yield client
 
 # Define a robust mock side effect for AI filters that handles empty inputs gracefully
-async def robust_get_ai_filters_mock(mesaj_sistem, user_input):
+def robust_get_ai_filters_mock(mesaj_sistem, user_input):
     if "opening" in mesaj_sistem.lower() or "openingHours" in mesaj_sistem:
         if not user_input or user_input == "None":
             return {}
@@ -88,7 +88,7 @@ def test_find_location_happy_flow(mock_get, mock_get_ai_filters, mock_extrage_fi
     assert data.get("name") == "Viper Club"
     assert data.get("formatted_address") == "Iași, Romania"
     assert data.get("address", {}).get("city") == "Iași"
-    assert data.get("coord", {}).get("lat") == 47.1585
+    assert data.get("coord", {}).get("lat") == pytest.approx(47.1585)
     assert data.get("tags") == ["club", "entertainment"]
     assert data.get("opening_hours", {}).get("monday", {}).get("open") == "10:00"
     

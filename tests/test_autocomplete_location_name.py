@@ -9,7 +9,7 @@ from api.routes.autocomplete_location_name import autocomplete_bp
 
 @pytest.fixture
 def client():
-    app = Flask(__name__)
+    app = Flask(__name__) # NOSONAR
     app.config['TESTING'] = True
     
     # Mimic the real app's blueprint nesting under /api
@@ -132,7 +132,7 @@ def test_autocomplete_with_bias_proximity(mock_get, client):
     assert response.status_code == 200
     
     mock_get.assert_called_once()
-    called_args, called_kwargs = mock_get.call_args
+    called_kwargs = mock_get.call_args
     params = called_kwargs["params"]
     
     assert params.get("text") == "Rest"
