@@ -132,7 +132,7 @@ def test_autocomplete_with_bias_proximity(mock_get, client):
     assert response.status_code == 200
     
     mock_get.assert_called_once()
-    called_kwargs = mock_get.call_args
+    _, called_kwargs = mock_get.call_args
     params = called_kwargs["params"]
     
     assert params.get("text") == "Rest"
