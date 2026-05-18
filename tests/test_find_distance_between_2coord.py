@@ -10,7 +10,7 @@ from api.routes.find_distance_between_2coord import distance_bp
 
 @pytest.fixture
 def client():
-    app = Flask(__name__)
+    app = Flask(__name__) # NOSONAR
     app.config['TESTING'] = True
     
     # Mimic the real app's blueprint nesting under /api
@@ -225,7 +225,7 @@ def test_distance_none_coordinate_values(mock_request, client):
     assert response.status_code == 200
 
     mock_request.assert_called_once()
-    called_args, called_kwargs = mock_request.call_args
+    _, called_kwargs = mock_request.call_args
     sent_payload = json.loads(called_kwargs["data"])
     
     assert sent_payload.get("sources") == [{"location": [None, 47.1]}]
