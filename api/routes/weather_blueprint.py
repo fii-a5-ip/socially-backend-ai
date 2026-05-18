@@ -16,7 +16,7 @@ Output (JSON):
 
 from flask import Blueprint, request, jsonify
 import requests
-weather_blueprint=Blueprint("find_weather_by_location", __name__, url_prefix="/find_weather_by_location")
+weather_blueprint=Blueprint("findWeatherByLocation", __name__, url_prefix="/findWeatherByLocation")
 # a function for interpreting the weather code given by Open-Meteo API 
 # Maps WMO weather codes to Romanian descriptions.
 def interpret_weather_code(code):
