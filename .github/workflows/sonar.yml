@@ -31,7 +31,7 @@ jobs:
       - name: Run tests and generate coverage report
         run: |
          # Rulează testele și creează raportul necesar pentru Sonar
-          python -m pytest --cov=. --cov-report=xml
+          python -m pytest --cov=api --cov-report=xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
