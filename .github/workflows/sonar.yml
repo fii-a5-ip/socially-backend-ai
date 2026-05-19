@@ -5,6 +5,8 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  repository_dispatch:
+    types: [ec2_instance_ready]
 
 jobs:
   build-and-analyze:
@@ -18,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
-          python-version: '3.14'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -29,7 +31,7 @@ jobs:
       - name: Run tests and generate coverage report
         run: |
          # Rulează testele și creează raportul necesar pentru Sonar
-          pytest --cov=. --cov-report=xml
+          python -m pytest --cov=. --cov-report=xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
@@ -39,14 +41,18 @@ jobs:
         with:
         # Îi spunem extensiei unde să găsească fișierul generat la pasul anterior
           args: >
+            -Dsonar.projectKey=socially-backend-ai
+            -Dsonar.organization=fii-a5-ip
+            -Dsonar.python.version=3.12
             -Dsonar.python.coverage.reportPaths=coverage.xml
-
+            -Dsonar.sources=api
+            -Dsonar.tests=tests
+            
   build-and-deploy:
     needs: build-and-analyze # Regula logica: Asteapta terminarea cu succes a Job-ului 1
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' 
-    # Conditie logica: Facem deploy pe server DOAR cand codul este impins efectiv pe branch-ul main, nu si cand se deschide doar un Pull Request.
-    
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'repository_dispatch' || github.event_name == 'workflow_dispatch'
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -75,7 +81,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ec2-user # INLOCUIESTE cu 'ec2-user' daca serverul vostru foloseste Amazon Linux in loc de Ubuntu
+          username: ec2-user 
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             # 1. Autentificare ECR pe serverul EC2
@@ -88,23 +94,34 @@ jobs:
             mkdir -p ~/app
             cd ~/app
 
-            echo "GEOAPIFY_AUTOCOMPLETE_API_KEY=${{ secrets.GEOAPIFY_AUTOCOMPLETE_API_KEY }}" > .env
-            echo "GEOAPIFY_DISTANCE_API_KEY=${{ secrets.GEOAPIFY_DISTANCE_API_KEY }}" >> .env
-            echo "GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}" >> .env
-            echo "GROQ_API_KEY_1=${{ secrets.GROQ_API_KEY_1 }}" >> .env
-            echo "GROQ_API_KEY_2=${{ secrets.GROQ_API_KEY_2 }}" >> .env
-            echo "GROQ_API_KEY_3=${{ secrets.GROQ_API_KEY_3 }}" >> .env
-            echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-            echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-            echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
-            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+            # Creare retea daca nu exista
+            docker network create retea-proiect || true
+
+            # --- DEPLOY REDIS ---
+            docker stop redis-cache || true
+            docker rm redis-cache || true
+            docker pull redis:7.2-alpine
+            docker run -d --name redis-cache --network retea-proiect --restart unless-stopped redis:7.2-alpine --appendonly yes
+
+            echo 'GEOAPIFY_AUTOCOMPLETE_API_KEY=${{ secrets.GEOAPIFY_AUTOCOMPLETE_API_KEY }}' > .env
+            echo 'GEOAPIFY_DISTANCE_API_KEY=${{ secrets.GEOAPIFY_DISTANCE_API_KEY }}' >> .env
+            echo 'GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}' >> .env
+            echo 'GROQ_API_KEY_1=${{ secrets.GROQ_API_KEY_1 }}' >> .env
+            echo 'GROQ_API_KEY_2=${{ secrets.GROQ_API_KEY_2 }}' >> .env
+            echo 'GROQ_API_KEY_3=${{ secrets.GROQ_API_KEY_3 }}' >> .env
+            echo 'DB_HOST=${{ secrets.DB_HOST }}' >> .env
+            echo 'DB_PORT=${{ secrets.DB_PORT }}' >> .env
+            echo 'DB_USER=${{ secrets.DB_USER }}' >> .env
+            echo 'DB_PASS=${{ secrets.DB_PASS }}' >> .env
+            echo 'DB_NAME=${{ secrets.DB_NAME }}' >> .env
+            echo 'REDIS_URL=redis://redis-cache:6379/0' >> .env
 
             # 4. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
-            docker stop backend-app || true
-            docker rm backend-app || true
+            docker stop backend-ai || true
+            docker rm backend-ai || true
             
             # 5. Pornirea noului container cu expunerea portului
-            docker run -d --name backend-app --env-file .env -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
+            # --- DEPLOY BACKEND ---
+            docker run -d --name backend-ai --env-file .env --network retea-proiect --restart unless-stopped -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
 
 

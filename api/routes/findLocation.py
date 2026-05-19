@@ -140,6 +140,7 @@ import folium
 
 from api.services.groq_service import get_ai_filters
 from api.services.db_service import extrage_filtre_din_db
+from api.extensions import cache
 
 load_dotenv()
 
@@ -212,7 +213,6 @@ def get_static_data(details: dict) -> dict:
 
     # Photo
     photo_url = details.get("image")
-            
     
     if not photo_url and "wiki_and_media" in details:
         wiki_data = details["wiki_and_media"]
@@ -386,7 +386,8 @@ def build_map_data(location_data: dict) -> dict:
         "html": html_map
     }
 
-def find_location_from_place_id(place_id: str) -> list:
+@cache.memoize(timeout=86400)
+def find_location_from_place_id(place_id: str) -> dict:
     if not GEOAPIFY_API_KEY:
         raise ValueError("Lipseste variabila GEOAPIFY_API_KEY")
 

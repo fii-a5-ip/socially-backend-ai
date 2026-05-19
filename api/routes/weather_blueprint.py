@@ -44,7 +44,7 @@ def interpret_weather_code(code):
     return mapping.get(code, "unknown")
 
 # Fetches weather data for specific coordinates and a list of dates.
-def findWeatherByLocation(location, dates):
+def find_weather_by_location(location, dates):
     url="https://api.open-meteo.com/v1/forecast"
     lat, lon=location
     params={
@@ -91,5 +91,5 @@ def weather_post():
     location=data.get("coordinates")
     dates=data.get("dates")
     # Process and return the final JSON structure
-    weather_info=findWeatherByLocation(location, dates)
+    weather_info=find_weather_by_location(location, dates)
     return jsonify(weather_info)
