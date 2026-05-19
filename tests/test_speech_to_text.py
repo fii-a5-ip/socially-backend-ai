@@ -7,13 +7,13 @@ from api.routes.speech_to_text import speech_blueprint
 class TestSpeechToTextBlueprint(unittest.TestCase):
 
     def setUp(self):
-        self.app = Flask(__name__)
+        self.app = Flask(__name__) #NOSONAR
         self.app.register_blueprint(speech_blueprint)
         self.client = self.app.test_client()
 
-    @patch('speech_to_text.Groq')
-    @patch('speech_to_text.os.remove')
-    @patch('speech_to_text.os.path.exists', return_value=True)
+    @patch('api.routes.speech_to_text.Groq')
+    @patch('api.routes.speech_to_text.os.remove')
+    @patch('api.routes.speech_to_text.os.path.exists', return_value=True)
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
     def test_speech_post_happy_flow(self, mock_file, mock_exists, mock_remove, mock_groq_class):
         # Test successful audio upload and transcription.
@@ -63,9 +63,9 @@ class TestSpeechToTextBlueprint(unittest.TestCase):
         output = response.get_json()
         self.assertEqual(output["status"], "error")
 
-    @patch('speech_to_text.Groq')
-    @patch('speech_to_text.os.remove')
-    @patch('speech_to_text.os.path.exists', return_value=True)
+    @patch('api.routes.speech_to_text.Groq')
+    @patch('api.routes.speech_to_text.os.remove')
+    @patch('api.routes.speech_to_text.os.path.exists', return_value=True)
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
     def test_speech_post_groq_api_exception(self, mock_file, mock_exists, mock_remove, mock_groq_class):
         # Test system resilience when Groq API raises an internal exception.

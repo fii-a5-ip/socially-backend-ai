@@ -6,11 +6,11 @@ from api.routes.weather_blueprint import weather_blueprint
 class TestWeatherBlueprint(unittest.TestCase):
 
     def setUp(self):
-        self.app = Flask(__name__)
+        self.app = Flask(__name__) # NOSONAR
         self.app.register_blueprint(weather_blueprint)
         self.client = self.app.test_client()
 
-    @patch('weather_blueprint.requests.get')
+    @patch('api.routes.weather_blueprint.requests.get')
     def test_weather_post_happy_flow(self, mock_get):
         # Test successful weather data parsing for multiple dates.
         # Simulate successful raw response from Open-Meteo API
@@ -47,7 +47,7 @@ class TestWeatherBlueprint(unittest.TestCase):
         self.assertEqual(len(output_data["2026-04-09"]["temp"]), 24)
         self.assertEqual(len(output_data["2026-04-15"]["precipitation_probability"]), 24)
 
-    @patch('weather_blueprint.requests.get')
+    @patch('api.routes.weather_blueprint.requests.get')
     def test_weather_post_date_out_of_range(self, mock_get):
         #Test API error handling when the requested date is out of range.
         mock_response_data = {
@@ -68,7 +68,7 @@ class TestWeatherBlueprint(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(response.get_json())
 
-    @patch('weather_blueprint.requests.get')
+    @patch('api.routes.weather_blueprint.requests.get')
     def test_weather_post_network_exception(self, mock_get):
         #Test system resilience when the external weather API is offline.
         mock_get.side_effect = Exception("Connection timeout")
