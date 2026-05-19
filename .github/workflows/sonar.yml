@@ -50,6 +50,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=api
             -Dsonar.tests=tests
+            -Dsonar.branch.name=master
             
   build-and-deploy:
     needs: build-and-analyze # Regula logica: Asteapta terminarea cu succes a Job-ului 1
