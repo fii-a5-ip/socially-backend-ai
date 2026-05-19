@@ -32,6 +32,9 @@ jobs:
         run: |
          # Rulează testele și creează raportul necesar pentru Sonar
           python -m pytest --cov=. --cov-report=xml
+          
+         # Fix absolute paths for SonarCloud Docker container
+          sed -i 's@/home/runner/work/socially-backend-ai/socially-backend-ai@/github/workspace@g' coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@4b0bfc149f5e285930eeb5e917327e66660c6e92
