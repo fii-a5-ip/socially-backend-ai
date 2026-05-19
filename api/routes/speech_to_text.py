@@ -13,11 +13,12 @@ from flask import Blueprint, request, jsonify
 from groq import Groq
 speech_blueprint=Blueprint("speechToText", __name__, url_prefix="/speechToText")
 
-api=Groq(api_key=os.environ.get('GROQ_API_KEY_1'))
+
 # Sends the audio file to Groq Whisper API and ensures file cleanup.
 #     :param audio: Path to the temporary audio file.
 #     :return: Transcribed text.
 def speech_to_text(audio):
+    api=Groq(api_key=os.environ.get('GROQ_API_KEY_1', 'test_dummy_key'))
     try:
         with open(audio, "rb") as audio_file:
             response=api.audio.transcriptions.create(file=audio_file, model="whisper-large-v3")
