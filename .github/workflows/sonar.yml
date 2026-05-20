@@ -112,6 +112,10 @@ jobs:
             echo 'GROQ_API_KEY_1=${{ secrets.GROQ_API_KEY_1 }}' >> .env
             echo 'GROQ_API_KEY_2=${{ secrets.GROQ_API_KEY_2 }}' >> .env
             echo 'GROQ_API_KEY_3=${{ secrets.GROQ_API_KEY_3 }}' >> .env
+            echo 'GROQ_API_KEY_4=${{ secrets.GROQ_API_KEY_4 }}' >> .env
+            echo 'GROQ_API_KEY_5=${{ secrets.GROQ_API_KEY_5 }}' >> .env
+            echo 'GROQ_API_KEY_6=${{ secrets.GROQ_API_KEY_6 }}' >> .env
+            echo 'GROQ_API_KEY_7=${{ secrets.GROQ_API_KEY_7 }}' >> .env
             echo 'DB_HOST=${{ secrets.DB_HOST }}' >> .env
             echo 'DB_PORT=${{ secrets.DB_PORT }}' >> .env
             echo 'DB_USER=${{ secrets.DB_USER }}' >> .env
