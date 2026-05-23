@@ -63,6 +63,10 @@ async def get_ai_filters(mesaj_sistem: str, user_input: str) -> dict:
                     ai_reply_string = data.get('choices')[0].get('message').get('content')
                     json_ai = orjson.loads(ai_reply_string)
 
+                    # Eliminăm orice halucinație unde id-ul e null
+                    if "tags" in json_ai:
+                        json_ai["tags"] = [tag for tag in json_ai["tags"] if tag.get("id") is not None]
+
                     # Returnăm dicționarul curat către API
                     return json_ai
 
