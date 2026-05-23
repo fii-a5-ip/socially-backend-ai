@@ -1,349 +1,237 @@
-24-hour venue
-accessible entrance
-accessible outdoor area
+24-hour Venue
+Accessible Entrance
 accessible parking
-accessible seating area
-accessible toilets
+Accessible Toilets
 adult only
 adventure park
 air conditioning
-allergen menu available
-amphitheatre
+Alcohol
+american cuisine
 amusement park
-app-based ordering
-aquarium
-arcade
-arena
-art gallery
-art studio
+Aquarium
+Arcade
+Art & Culture
+Art Gallery
+Asian Cuisine
 athletics track
-av equipment
 axe throwing venue
 baby changing facilities
-badminton hall
-bakery
-bandstand
-bar
-baseball field
+Bakery
+Bar
 basement venue
-basketball court
-bbq facilities
+Basketball Court
+BBQ Facilities
+Beach
 beach bar
 beachfront
-bench seating
+Beer
+Beer Garden
 bicycle parking
-bicycle rental
-billiard
+Billiards
 bingo hall
 bistro
-board game cafe
-board games
+Board Games
 boat hire
-bookshop cafe
+Book Reading
 bookstore
-booth seating
-botanical garden
+Botanical Garden
 bouldering gym
 boutique
-bowling alley
-bowling alley bar
-braille menu
-brasserie
-brewery
-brewery tour
-brunch
-bubble tea shop
+Bowling
+Breakfast & Brunch
+Bubble Tea Shop
 buffet
-burger
-bus stop adjacent
+Burger
 cable car
-cafe
-campground
+Cafe
+Campground
 car parking
-card payment accepted
-cash only
+Card Payment Accepted
+caribbean cuisine
 cashless venue
-casino
+Casino
 castle
-changing places toilet
 children's menu
-cidery
+chinese cuisine
 cigar lounge
-cinema
-cinema bar
-climbing wall
-coat check
-cocktail bar
-cocktail making
-comedy club
-comedy night
-communal tables
-community centre
-companion seating
-concert hall
+Cinema
+Climbing Wall
+Cocktail Bar
+Cocktails
+Coffee
+Coffee Shop
+Comedy Club
+Competition
+Concert Hall
 contactless payment
 cooking school
-countryside
 courtyard
 courtyard garden
-covered outdoor area
 coworking space
-craft beer bar
-craft workshop
+Craft Beer
 creperie
-crypto payment accepted
-dairy free options
-dance floor
-dance studio
-darts
-designated smoking area
-diner
+Dairy-Free Options
+Dance Studio
+Dancing
+Darts
+Delivery
+Dessert Shop
 disabled parking bay
 distillery
 distillery tour
-dive bar
-dj
+Dive Bar
+DJ
 dog park
-dog water bowl
-driving range
+Drinks
+Drive-through
 early morning venue
-elevator access
-enclosed garden
-equestrian centre
-escape room
-esports venue
-ethernet available
-ev charging station
-family room
-farm shop cafe
-farm to table
-fast food
-fire pit
-fishing area
-fitness studio
-flexible layout
-flip chart available
-floor seating
+Education
+Escape Room
+Exhibition
+Family Friendly
+Farmers Market
+Fast Food
+Festival
+Food
 food court
-food hall
 food truck
-foosball
-forest setting
-free wifi
+Football Pitch
+Forest Setting
+Free Parking
+Free WiFi
+french cuisine
+Games
 gaming lounge
-garden centre cafe
-garden seating
-gazebo
-gin bar
-gluten free options
+Gluten-Free Options
 go-kart track
-golf course
-ground level
-group painting
-gym
-halal certified
-hdmi connection
-hearing loop
-heated indoor space
-high chairs available
-high-speed wifi
-hiking trail
-hilltop
-historic ruins
-historic site
-hookah lounge
+Golf
+greek cuisine
+Gym
+Halal Certified
+Hiking Trail
+Historic Site
+Hookah Lounge
 hotel bar
-ice cream
-ice rink
-indoor seating
+Ice Cream
+Ice Skating
+indian cuisine
+Indoors
 island location
-juice bar
-karaoke
+Italian Cuisine
+japanese cuisine
+Juice Bar
+Karaoke
 kebab
+Kid Friendly
 kids play area
-kosher certified
-lakeside
-laptop friendly
-large capacity
-large print menu
+korean cuisine
+Kosher Certified
+Lakeside
+Language Exchange
 laser tag venue
-late night venue
-library
-live music
-livestream capable
-lockers available
-long tables
-lounge
-lowered counter
+lebanese cuisine
+Live Entertainment
+Live Music
+Live Sports Screening
+Lounge
 marina
-market hall
-market square
-martial arts studio
-mead hall
-meadow
-members club
-metro station nearby
-microbrewery
-microphone available
-mini golf
-monument
-multi-faith space
-multi-level venue
-multilingual staff
-museum
-museum cafe
-nature reserve
-night lighting
-nightclub
-nursing room
-nut free
+Martial Arts
+Mediterranean Cuisine
+Mexican Cuisine
+middle eastern cuisine
+Mini Golf
+Museum
+Music
+Nature Reserve
+Networking
+Nightclub
+Nightlife
+Nut-Free Options
 observatory
-off-roading area
-open air venue
-open mic
-open plan layout
+Open Mic
 opera house
 organic food
-outdoor cinema
-outdoor heaters
-outdoor pet area
-outdoor seating
-outdoor smoking area
+Outdoor Cinema
+Outdoor Seating
+Outdoors
 paintball venue
 palace
+Park
 park setting
+Parking
 parking available
-partitioned spaces
-patio
-pergola
-pet friendly
-picnic area
-picnic tables
-pizza
+Party
+Pet Friendly
+Photography
+Picnic Area
+Pizza
 planetarium
-playground on site
-plaza
 pool table
-pop-up venue
-pottery studio
-power outlets
-prayer room
-printing available
-private dining room
-private hire available
-projection screen
-projector available
-pub
-public beach
-public square
-public transport nearby
-pushchair accessible
-quiet hour
-quiz night
+Pop-up Event
+Pub
+Public Square
+Quiz Night
 ramen
-ramp access
-reservation required
-restaurant
-riverside
-roller skating rink
-rooftop bar
-rooftop garden
-rooftop seating
-rope course
+Restaurant
+Riverside
+Roller Skating
+Romance
+Romanian Cuisine
+Rooftop
 rugby pitch
-rum bar
-rural setting
-sake bar
-scenic viewpoint
-science centre
-sculpture garden
-seafood
-seasonal venue
-secure storage
-semi-open venue
-separate rooms
-shade available
+Seafood
+Shopping
 shopping mall
-sign language support
-skatepark
-ski resort
-small capacity
-smart tv
-smoke free
-sober bar
-social club
-social dancing
-sound system
+Skatepark
+Smoking Area
+Social Dancing
+Socializing
 spa
-speakeasy
-sports bar
-sports field adjacent
-sports screening
-squash club
-stadium
-stage
-standing desk available
-standing room
-steakhouse
-step-free access
-street food market
-suburban setting
+spanish cuisine
+Speakeasy
+Sports
+Sports Bar
+Sports Hall
+Stadium
+Stand-up Comedy
+Steakhouse
+Street Food
 supermarket
-surfing spot
-sushi
-swimming pool
-table tennis
+Swimming Pool
+Takeaway
 tapas
-taproom
+Tasting Event
 tavern
-tea house
-tennis club
-terrace
-theater
-theatre bar
+Tea
+Tea Room
+Tennis Court
+Terrace
+thai cuisine
+Theatre
+Theme Park
 thrift store
 trampoline park
-translation available
-trivia night
 urban setting
-usb charging
-valet parking
-vegan options
-vegetarian options
-video conferencing setup
+Valet Parking
+Vegan Options
+Vegetarian Options
+vietnamese cuisine
+Viewpoint
+Virtual Reality Center
 volleyball court
+Volunteering
 vr gaming
 water park
-water sports centre
-waterfront
-waterproof shelter
-wheelchair accessible
-whisky bar
-whiteboard available
-wide doorways
-wine bar
+Water Sports
+Waterfront
+Wellness
+Wheelchair Accessible
+Wine
+Wine Bar
 winery
 winery tour
-wireless charging
-woodland
-workshop space
-year-round venue
-yoga studio
+Workshop
+Yoga Studio
 zero waste venue
 zipline
-zoo
-italian cuisine
-mexican cuisine
-chinese cuisine
-indian cuisine
-french cuisine
-thai cuisine
-vietnamese cuisine
-greek cuisine
-spanish cuisine
-korean cuisine
-lebanese cuisine
-japanese cuisine
-caribbean cuisine
-middle eastern cuisine
-american cuisine
+Zoo
