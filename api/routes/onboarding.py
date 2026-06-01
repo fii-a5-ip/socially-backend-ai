@@ -2,6 +2,7 @@ import json
 import os
 from flask import Blueprint, request, jsonify
 from api.services.groq_service import get_ai_filters
+from api.services.db_service import extrage_filtre_din_db
 import asyncio
 
 onboarding_bp = Blueprint('onboardingProcess', __name__, url_prefix='/onboardingProcess')
@@ -73,12 +74,12 @@ def process_step():
         history_text += f"Întrebare AI: {entry.get('q', '')}\n"
         history_text += f"Răspuns User: {entry.get('a', '')}\n\n"
 
-    # Citim resursele externe (Prompt și Filtre)
+    # Citim resursele externe (Prompt)
     with open(PROMPT_PATH, 'r', encoding='utf-8') as file:
         prompt_template = file.read()
-    with open(FILTERS_PATH, 'r', encoding='utf-8') as f:
-        lines = [line.strip() for line in f if line.strip()]
-        lista_filtre_profil = "\n".join([f"{i+1} - {name}" for i, name in enumerate(lines)])
+    
+    # Extragem lista de filtre direct din baza de date
+    lista_filtre_profil = extrage_filtre_din_db()
 
     # Determinăm opțiunile de rutare pentru pasul curent
     available_next_questions = ONBOARDING_DATA['routing'].get(str(step), "L3-UNIVERSAL-LOGISTICS")
