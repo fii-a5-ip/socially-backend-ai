@@ -77,7 +77,8 @@ def process_step():
     with open(PROMPT_PATH, 'r', encoding='utf-8') as file:
         prompt_template = file.read()
     with open(FILTERS_PATH, 'r', encoding='utf-8') as f:
-        lista_filtre_profil = f.read()
+        lines = [line.strip() for line in f if line.strip()]
+        lista_filtre_profil = "\n".join([f"{i+1} - {name}" for i, name in enumerate(lines)])
 
     # Determinăm opțiunile de rutare pentru pasul curent
     available_next_questions = ONBOARDING_DATA['routing'].get(str(step), "L3-UNIVERSAL-LOGISTICS")
