@@ -80,55 +80,9 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user 
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            # 1. Autentificare ECR pe serverul EC2
-            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-            
-            # 2. Tragerea celei mai noi imagini din depozit
-            docker pull ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
-            
-            # 3. Setarea la environment variables in OS
-            mkdir -p ~/app
-            cd ~/app
-
-            # Creare retea daca nu exista
-            docker network create retea-proiect || true
-
-            # --- DEPLOY REDIS ---
-            docker stop redis-cache || true
-            docker rm redis-cache || true
-            docker pull redis:7.2-alpine
-            docker run -d --name redis-cache --network retea-proiect --restart unless-stopped redis:7.2-alpine --appendonly yes
-
-            echo 'GEOAPIFY_AUTOCOMPLETE_API_KEY=${{ secrets.GEOAPIFY_AUTOCOMPLETE_API_KEY }}' > .env
-            echo 'GEOAPIFY_DISTANCE_API_KEY=${{ secrets.GEOAPIFY_DISTANCE_API_KEY }}' >> .env
-            echo 'GEOAPIFY_API_KEY=${{ secrets.GEOAPIFY_API_KEY }}' >> .env
-            echo 'GROQ_API_KEY_1=${{ secrets.GROQ_API_KEY_1 }}' >> .env
-            echo 'GROQ_API_KEY_2=${{ secrets.GROQ_API_KEY_2 }}' >> .env
-            echo 'GROQ_API_KEY_3=${{ secrets.GROQ_API_KEY_3 }}' >> .env
-            echo 'GROQ_API_KEY_4=${{ secrets.GROQ_API_KEY_4 }}' >> .env
-            echo 'GROQ_API_KEY_5=${{ secrets.GROQ_API_KEY_5 }}' >> .env
-            echo 'GROQ_API_KEY_6=${{ secrets.GROQ_API_KEY_6 }}' >> .env
-            echo 'GROQ_API_KEY_7=${{ secrets.GROQ_API_KEY_7 }}' >> .env
-            echo 'DB_HOST=${{ secrets.DB_HOST }}' >> .env
-            echo 'DB_PORT=${{ secrets.DB_PORT }}' >> .env
-            echo 'DB_USER=${{ secrets.DB_USER }}' >> .env
-            echo 'DB_PASS=${{ secrets.DB_PASS }}' >> .env
-            echo 'DB_NAME=${{ secrets.DB_NAME }}' >> .env
-            echo 'REDIS_URL=redis://redis-cache:6379/0' >> .env
-
-            # 4. Oprirea si stergerea containerului vechi (pentru a evita erori de tipul "numele e deja folosit")
-            docker stop backend-ai || true
-            docker rm backend-ai || true
-            
-            # 5. Pornirea noului container cu expunerea portului
-            # --- DEPLOY BACKEND ---
-            docker run -d --name backend-ai --env-file .env --network retea-proiect --restart unless-stopped -p 5000:5000 ${{ steps.login-ecr.outputs.registry }}/proiect-backend-api:latest
-
-
+      - name: Trigger ASG Instance Refresh
+        run: |
+          aws autoscaling start-instance-refresh \
+            --auto-scaling-group-name flask-auto-scaling \
+            --region eu-west-1 \
+            --preferences '{"MinHealthyPercentage": 50, "InstanceWarmup": 300}'
